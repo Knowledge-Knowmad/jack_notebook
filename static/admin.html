@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知識剪貼簿 — 管理後台</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--surface:#12121a;--card:#1a1a26;--card-hover:#22223a;
+  --accent:#e8c547;--accent2:#47e8c5;--danger:#e85447;
+  --text:#e8e6e0;--text-dim:#8a8a9a;--border:#2a2a3a;
+  --radius:12px;
+  --font:'Noto Sans TC',sans-serif;--mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh}
+
+/* Login Screen */
+.login-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;padding:20px;
+}
+.login-box{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:48px 40px;max-width:380px;width:100%;text-align:center;
+}
+.login-box h1{font-size:24px;margin-bottom:8px}
+.login-box p{font-size:13px;color:var(--text-dim);margin-bottom:32px}
+.login-box input{
+  width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:14px;margin-bottom:16px;outline:none;
+  font-family:var(--font);
+}
+.login-box input:focus{border-color:var(--accent)}
+.login-error{color:var(--danger);font-size:13px;margin-bottom:12px;display:none}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 20px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);font-size:13px;
+  font-family:var(--font);cursor:pointer;transition:all .2s;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--accent);color:#0a0a0f;border-color:var(--accent);font-weight:500}
+.btn-primary:hover{background:#f0d060;border-color:#f0d060}
+.btn-danger{border-color:var(--danger);color:var(--danger)}
+.btn-danger:hover{background:var(--danger);color:#fff}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+/* Layout */
+.app{display:none}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;border-bottom:1px solid var(--border);
+  background:var(--surface);position:sticky;top:0;z-index:100;
+}
+.topbar h1{font-size:18px;display:flex;align-items:center;gap:8px}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+
+.main{max-width:1200px;margin:0 auto;padding:32px}
+
+/* Card List */
+.card-list{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.card-item{
+  display:flex;align-items:center;gap:16px;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px 20px;transition:all .2s;cursor:grab;
+}
+.card-item:hover{border-color:rgba(232,197,71,.3)}
+.card-item.dragging{opacity:.5;border-color:var(--accent)}
+.card-thumb{
+  width:80px;height:50px;border-radius:6px;overflow:hidden;
+  background:var(--bg);flex-shrink:0;
+}
+.card-thumb img{width:100%;height:100%;object-fit:cover}
+.card-thumb .no-img{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:var(--text-dim);
+}
+.card-info{flex:1;min-width:0}
+.card-info h3{font-size:15px;margin-bottom:4px}
+.card-info .meta{font-size:12px;color:var(--text-dim);display:flex;gap:12px;align-items:center}
+.card-info .tag-badge{
+  font-family:var(--mono);font-size:10px;letter-spacing:1px;
+  padding:2px 8px;border:1px solid rgba(232,197,71,.3);border-radius:100px;
+  color:var(--accent);
+}
+.card-info .hidden-badge{
+  font-size:10px;padding:2px 8px;border:1px solid var(--danger);border-radius:100px;
+  color:var(--danger);
+}
+.card-actions{display:flex;gap:6px;flex-shrink:0}
+.drag-handle{color:var(--text-dim);cursor:grab;padding:4px;font-size:16px}
+
+/* Modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;
+  display:none;align-items:flex-start;justify-content:center;
+  padding:40px 20px;overflow-y:auto;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  width:100%;max-width:800px;padding:32px;position:relative;
+}
+.modal h2{font-size:20px;margin-bottom:24px}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;
+}
+.modal-close:hover{color:var(--text)}
+
+/* Form */
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:var(--text-dim)}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:14px;outline:none;
+  font-family:var(--font);
+}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* Image Upload */
+.image-upload-zone{
+  border:2px dashed var(--border);border-radius:var(--radius);
+  padding:32px;text-align:center;transition:all .3s;cursor:pointer;
+  position:relative;
+}
+.image-upload-zone:hover,.image-upload-zone.dragover{
+  border-color:var(--accent);background:rgba(232,197,71,.03);
+}
+.image-upload-zone .hint{font-size:13px;color:var(--text-dim)}
+.image-upload-zone .hint strong{color:var(--accent)}
+.image-upload-zone input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;
+}
+.image-preview{
+  margin-top:12px;position:relative;display:inline-block;
+}
+.image-preview img{
+  max-width:100%;max-height:200px;border-radius:8px;
+}
+.image-preview .remove-btn{
+  position:absolute;top:-8px;right:-8px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--danger);color:#fff;border:none;
+  font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+
+/* HTML Editor Section */
+.html-section{margin-top:8px}
+.html-tabs{display:flex;gap:4px;margin-bottom:12px}
+.html-tab{
+  padding:8px 16px;border-radius:8px 8px 0 0;border:1px solid var(--border);
+  border-bottom:none;background:var(--bg);color:var(--text-dim);
+  font-size:12px;cursor:pointer;font-family:var(--font);
+}
+.html-tab.active{background:var(--card);color:var(--accent);border-color:var(--accent)}
+.html-editor{
+  width:100%;min-height:300px;padding:16px;
+  background:var(--bg);border:1px solid var(--border);border-radius:0 8px 8px 8px;
+  color:#b8d4b8;font-family:'Space Mono',monospace;font-size:13px;line-height:1.6;
+  resize:vertical;outline:none;tab-size:2;
+}
+.html-editor:focus{border-color:var(--accent)}
+.html-upload-alt{
+  display:flex;align-items:center;gap:12px;margin-top:12px;
+}
+
+/* Checkbox */
+.checkbox-group{display:flex;align-items:center;gap:8px}
+.checkbox-group input[type=checkbox]{
+  width:18px;height:18px;accent-color:var(--accent);cursor:pointer;
+}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  padding:12px 20px;border-radius:8px;
+  background:var(--accent);color:#0a0a0f;font-size:13px;font-weight:500;
+  transform:translateY(80px);opacity:0;transition:all .3s;z-index:999;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{background:var(--danger);color:#fff}
+
+/* Empty State */
+.empty-state{
+  text-align:center;padding:80px 20px;color:var(--text-dim);
+}
+.empty-state .icon{font-size:48px;margin-bottom:16px;opacity:.3}
+.empty-state p{font-size:14px;margin-bottom:20px}
+
+/* Responsive */
+@media(max-width:768px){
+  .topbar{padding:12px 16px}
+  .main{padding:16px}
+  .form-row{grid-template-columns:1fr}
+  .card-item{flex-wrap:wrap}
+  .card-thumb{width:60px;height:38px}
+  .modal{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h1>知識剪貼簿</h1>
+    <p>管理後台登入</p>
+    <div class="login-error" id="loginError">密碼錯誤，請重試</div>
+    <input type="password" id="loginPassword" placeholder="請輸入管理密碼" autofocus>
+    <button class="btn btn-primary" style="width:100%" onclick="doLogin()">登入</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app">
+  <div class="topbar">
+    <h1>✦ 知識剪貼簿 <span style="font-size:12px;color:var(--text-dim);font-weight:400">管理後台</span></h1>
+    <div class="topbar-actions">
+      <a href="/" class="btn btn-sm" target="_blank">查看前台 ↗</a>
+      <button class="btn btn-sm" onclick="doLogout()">登出</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h2>作品卡片管理</h2>
+      <button class="btn btn-primary" onclick="openCreateModal()">＋ 新增卡片</button>
+    </div>
+    <div class="card-list" id="cardList"></div>
+  </div>
+</div>
+
+<!-- EDIT/CREATE MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h2 id="modalTitle">新增卡片</h2>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>標題</label>
+        <input type="text" id="f_title" placeholder="作品名稱">
+      </div>
+      <div class="form-group">
+        <label>標籤</label>
+        <input type="text" id="f_tag" placeholder="互動網站" value="互動網站">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>描述</label>
+      <textarea id="f_desc" placeholder="簡短描述這個作品..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>顯示圖片</label>
+      <div class="image-upload-zone" id="imageZone">
+        <input type="file" id="imageInput" accept="image/*">
+        <div class="hint" id="imageHint">
+          拖拉圖片到此處，或<strong>點擊上傳</strong><br>
+          <span style="font-size:11px">支援 JPG, PNG, GIF, WebP, SVG</span>
+        </div>
+      </div>
+      <div class="image-preview" id="imagePreview" style="display:none">
+        <img id="previewImg">
+        <button class="remove-btn" onclick="removeImage()" title="移除圖片">&times;</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="f_visible" checked>
+        <label for="f_visible" style="margin:0;cursor:pointer">在前台顯示此卡片</label>
+      </div>
+    </div>
+
+    <div class="form-group html-section">
+      <label>HTML 內容頁</label>
+      <div class="html-tabs">
+        <button class="html-tab active" onclick="switchHtmlTab('editor',this)">程式碼編輯</button>
+        <button class="html-tab" onclick="switchHtmlTab('upload',this)">上傳檔案</button>
+      </div>
+      <div id="htmlEditorPane">
+        <textarea class="html-editor" id="f_html" placeholder="在此貼上或編輯 HTML 內容..."></textarea>
+      </div>
+      <div id="htmlUploadPane" style="display:none">
+        <div class="image-upload-zone" style="padding:24px">
+          <input type="file" id="htmlFileInput" accept=".html,.htm">
+          <div class="hint">拖拉 .html 檔案到此處，或<strong>點擊上傳</strong></div>
+        </div>
+        <div id="htmlFileName" style="font-size:12px;color:var(--text-dim);margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px">
+      <button class="btn" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" id="saveBtn" onclick="saveCard()">儲存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===================== State =====================
+let cards = [];
+let editingId = null;
+let pendingImageFile = null;
+let pendingHtmlFile = null;
+
+// ===================== Auth =====================
+async function checkAuth() {
+  try {
+    const res = await fetch('/api/auth/check');
+    const data = await res.json();
+    if (data.authenticated) {
+      showApp();
+    }
+  } catch(e) {}
+}
+
+async function doLogin() {
+  const pw = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({password: pw})
+    });
+    if (res.ok) {
+      errEl.style.display = 'none';
+      showApp();
+    } else {
+      errEl.style.display = 'block';
+    }
+  } catch(e) {
+    errEl.textContent = '連線失敗';
+    errEl.style.display = 'block';
+  }
+}
+
+async function doLogout() {
+  await fetch('/api/logout', {method:'POST'});
+  location.reload();
+}
+
+document.getElementById('loginPassword').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadCards();
+}
+
+// ===================== Cards =====================
+async function loadCards() {
+  try {
+    const res = await fetch('/api/admin/cards');
+    if (res.status === 401) { location.reload(); return; }
+    cards = await res.json();
+    renderCards();
+  } catch(e) {
+    toast('載入失敗', true);
+  }
+}
+
+function renderCards() {
+  const list = document.getElementById('cardList');
+  if (cards.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">✦</div>
+        <p>還沒有任何作品卡片</p>
+        <button class="btn btn-primary" onclick="openCreateModal()">＋ 新增第一張卡片</button>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = cards.map(c => `
+    <div class="card-item" draggable="true" data-id="${c.id}"
+         ondragstart="dragStart(event)" ondragover="dragOver(event)"
+         ondragend="dragEnd(event)" ondrop="dropCard(event)">
+      <span class="drag-handle">⠿</span>
+      <div class="card-thumb">
+        ${c.image_url
+          ? `<img src="${c.image_url}" alt="">`
+          : `<div class="no-img">✦</div>`}
+      </div>
+      <div class="card-info">
+        <h3>${esc(c.title)}</h3>
+        <div class="meta">
+          <span class="tag-badge">${esc(c.tag)}</span>
+          ${!c.is_visible ? '<span class="hidden-badge">已隱藏</span>' : ''}
+          <span>${esc(c.desc || '')}</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-sm" onclick="openEditModal(${c.id})">編輯</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteCard(${c.id})">刪除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===================== Create / Edit Modal =====================
+function openCreateModal() {
+  editingId = null;
+  pendingImageFile = null;
+  pendingHtmlFile = null;
+  document.getElementById('modalTitle').textContent = '新增卡片';
+  document.getElementById('f_title').value = '';
+  document.getElementById('f_tag').value = '互動網站';
+  document.getElementById('f_desc').value = '';
+  document.getElementById('f_visible').checked = true;
+  document.getElementById('f_html').value = '';
+  resetImagePreview();
+  document.getElementById('htmlFileName').textContent = '';
+  document.getElementById('modal').classList.add('open');
+}
+
+async function openEditModal(id) {
+  editingId = id;
+  pendingImageFile = null;
+  pendingHtmlFile = null;
+  document.getElementById('modalTitle').textContent = '編輯卡片';
+
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+
+  document.getElementById('f_title').value = card.title;
+  document.getElementById('f_tag').value = card.tag;
+  document.getElementById('f_desc').value = card.desc;
+  document.getElementById('f_visible').checked = card.is_visible;
+
+  // Show current image
+  if (card.image_url) {
+    document.getElementById('imageZone').style.display = 'none';
+    const preview = document.getElementById('imagePreview');
+    preview.style.display = 'inline-block';
+    document.getElementById('previewImg').src = card.image_url;
+  } else {
+    resetImagePreview();
+  }
+
+  // Load HTML content
+  document.getElementById('f_html').value = '';
+  if (card.html_filename) {
+    try {
+      const res = await fetch(`/api/admin/cards/${id}/html`);
+      if (res.ok) {
+        const data = await res.json();
+        document.getElementById('f_html').value = data.content || '';
+      }
+    } catch(e) {}
+  }
+  document.getElementById('htmlFileName').textContent = card.html_filename || '';
+
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  editingId = null;
+}
+
+async function saveCard() {
+  const title = document.getElementById('f_title').value.trim();
+  if (!title) { toast('請輸入標題', true); return; }
+
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = '儲存中...';
+
+  try {
+    const form = new FormData();
+    form.append('title', title);
+    form.append('tag', document.getElementById('f_tag').value.trim());
+    form.append('desc', document.getElementById('f_desc').value.trim());
+    form.append('is_visible', document.getElementById('f_visible').checked);
+
+    let cardId = editingId;
+
+    if (editingId) {
+      // Update
+      const res = await fetch(`/api/admin/cards/${editingId}`, {method:'PUT', body: form});
+      if (!res.ok) throw new Error('更新失敗');
+    } else {
+      // Create
+      const res = await fetch('/api/admin/cards', {method:'POST', body: form});
+      if (!res.ok) throw new Error('建立失敗');
+      const data = await res.json();
+      cardId = data.id;
+    }
+
+    // Upload image if pending
+    if (pendingImageFile) {
+      const imgForm = new FormData();
+      imgForm.append('file', pendingImageFile);
+      const res = await fetch(`/api/admin/cards/${cardId}/image`, {method:'POST', body: imgForm});
+      if (!res.ok) throw new Error('圖片上傳失敗');
+    }
+
+    // Save HTML content
+    const htmlContent = document.getElementById('f_html').value;
+    if (pendingHtmlFile) {
+      // Upload HTML file
+      const htmlForm = new FormData();
+      htmlForm.append('file', pendingHtmlFile);
+      const res = await fetch(`/api/admin/cards/${cardId}/html`, {method:'POST', body: htmlForm});
+      if (!res.ok) throw new Error('HTML 上傳失敗');
+    } else if (htmlContent.trim()) {
+      // Save from editor
+      const res = await fetch(`/api/admin/cards/${cardId}/html`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({content: htmlContent})
+      });
+      if (!res.ok) throw new Error('HTML 儲存失敗');
+    }
+
+    toast(editingId ? '已更新' : '已新增');
+    closeModal();
+    await loadCards();
+  } catch(e) {
+    toast(e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '儲存';
+  }
+}
+
+async function deleteCard(id) {
+  const card = cards.find(c => c.id === id);
+  if (!confirm(`確定要刪除「${card?.title}」嗎？此動作無法復原。`)) return;
+  try {
+    const res = await fetch(`/api/admin/cards/${id}`, {method:'DELETE'});
+    if (res.ok) {
+      toast('已刪除');
+      await loadCards();
+    }
+  } catch(e) {
+    toast('刪除失敗', true);
+  }
+}
+
+// ===================== Image Drag & Drop =====================
+const imageZone = document.getElementById('imageZone');
+const imageInput = document.getElementById('imageInput');
+
+imageZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  imageZone.classList.add('dragover');
+});
+imageZone.addEventListener('dragleave', () => imageZone.classList.remove('dragover'));
+imageZone.addEventListener('drop', e => {
+  e.preventDefault();
+  imageZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) handleImageFile(file);
+});
+imageInput.addEventListener('change', e => {
+  if (e.target.files[0]) handleImageFile(e.target.files[0]);
+});
+
+function handleImageFile(file) {
+  pendingImageFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    imageZone.style.display = 'none';
+    const preview = document.getElementById('imagePreview');
+    preview.style.display = 'inline-block';
+    document.getElementById('previewImg').src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function removeImage() {
+  pendingImageFile = null;
+  if (editingId) {
+    try {
+      await fetch(`/api/admin/cards/${editingId}/image`, {method:'DELETE'});
+    } catch(e) {}
+  }
+  resetImagePreview();
+}
+
+function resetImagePreview() {
+  document.getElementById('imageZone').style.display = 'block';
+  document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('previewImg').src = '';
+  document.getElementById('imageInput').value = '';
+}
+
+// ===================== HTML Tab / Upload =====================
+function switchHtmlTab(tab, btnEl) {
+  document.querySelectorAll('.html-tab').forEach(t => t.classList.remove('active'));
+  btnEl.classList.add('active');
+  document.getElementById('htmlEditorPane').style.display = tab === 'editor' ? 'block' : 'none';
+  document.getElementById('htmlUploadPane').style.display = tab === 'upload' ? 'block' : 'none';
+}
+
+const htmlFileInput = document.getElementById('htmlFileInput');
+htmlFileInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) {
+    pendingHtmlFile = file;
+    document.getElementById('htmlFileName').textContent = `已選擇: ${file.name}`;
+    // Also read into editor
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById('f_html').value = ev.target.result;
+    };
+    reader.readAsText(file);
+  }
+});
+
+// ===================== Drag Reorder =====================
+let dragId = null;
+
+function dragStart(e) {
+  dragId = parseInt(e.currentTarget.dataset.id);
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function dragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+function dragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+}
+async function dropCard(e) {
+  e.preventDefault();
+  const targetId = parseInt(e.currentTarget.dataset.id);
+  if (dragId === targetId) return;
+
+  // Reorder in array
+  const fromIdx = cards.findIndex(c => c.id === dragId);
+  const toIdx = cards.findIndex(c => c.id === targetId);
+  const [moved] = cards.splice(fromIdx, 1);
+  cards.splice(toIdx, 0, moved);
+  renderCards();
+
+  // Save order
+  try {
+    await fetch('/api/admin/cards/reorder', {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({order: cards.map(c => c.id)})
+    });
+    toast('排序已更新');
+  } catch(e) {
+    toast('排序儲存失敗', true);
+  }
+}
+
+// ===================== Utils =====================
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function toast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 2500);
+}
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// Escape to close
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ===================== Init =====================
+checkAuth();
+</script>
+</body>
+</html>

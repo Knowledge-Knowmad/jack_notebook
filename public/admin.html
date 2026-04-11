@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知識剪貼簿 — 管理後台</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--surface:#12121a;--card:#1a1a26;--card-hover:#22223a;
+  --accent:#e8c547;--accent2:#47e8c5;--danger:#e85447;
+  --text:#e8e6e0;--text-dim:#8a8a9a;--border:#2a2a3a;
+  --radius:12px;
+  --font:'Noto Sans TC',sans-serif;--mono:'Space Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh}
+
+/* Login */
+.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:48px 40px;max-width:380px;width:100%;text-align:center}
+.login-box h1{font-size:24px;margin-bottom:8px}
+.login-box p{font-size:13px;color:var(--text-dim);margin-bottom:32px}
+.login-box input{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;margin-bottom:12px;outline:none;font-family:var(--font)}
+.login-box input:focus{border-color:var(--accent)}
+.login-error{color:var(--danger);font-size:13px;margin-bottom:12px;display:none}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-family:var(--font);cursor:pointer;transition:all .2s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn-primary{background:var(--accent);color:#0a0a0f;border-color:var(--accent);font-weight:500}
+.btn-primary:hover{background:#f0d060;border-color:#f0d060}
+.btn-danger{border-color:var(--danger);color:var(--danger)}
+.btn-danger:hover{background:var(--danger);color:#fff}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+/* Layout */
+.app{display:none}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:100}
+.topbar h1{font-size:18px;display:flex;align-items:center;gap:8px}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+.topbar-user{font-size:12px;color:var(--text-dim)}
+.main{max-width:1200px;margin:0 auto;padding:32px}
+
+/* Card List */
+.card-list{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.card-item{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;transition:all .2s;cursor:grab}
+.card-item:hover{border-color:rgba(232,197,71,.3)}
+.card-item.dragging{opacity:.5;border-color:var(--accent)}
+.card-thumb{width:80px;height:50px;border-radius:6px;overflow:hidden;background:var(--bg);flex-shrink:0}
+.card-thumb img{width:100%;height:100%;object-fit:cover}
+.card-thumb .no-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-dim)}
+.card-info{flex:1;min-width:0}
+.card-info h3{font-size:15px;margin-bottom:4px}
+.card-info .meta{font-size:12px;color:var(--text-dim);display:flex;gap:12px;align-items:center}
+.card-info .tag-badge{font-family:var(--mono);font-size:10px;letter-spacing:1px;padding:2px 8px;border:1px solid rgba(232,197,71,.3);border-radius:100px;color:var(--accent)}
+.card-info .hidden-badge{font-size:10px;padding:2px 8px;border:1px solid var(--danger);border-radius:100px;color:var(--danger)}
+.card-actions{display:flex;gap:6px;flex-shrink:0}
+.drag-handle{color:var(--text-dim);cursor:grab;padding:4px;font-size:16px}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);width:100%;max-width:800px;padding:32px;position:relative}
+.modal h2{font-size:20px;margin-bottom:24px}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer}
+.modal-close:hover{color:var(--text)}
+
+/* Form */
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:var(--text-dim)}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none;font-family:var(--font)}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* Image Upload */
+.image-upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:32px;text-align:center;transition:all .3s;cursor:pointer;position:relative}
+.image-upload-zone:hover,.image-upload-zone.dragover{border-color:var(--accent);background:rgba(232,197,71,.03)}
+.image-upload-zone .hint{font-size:13px;color:var(--text-dim)}
+.image-upload-zone .hint strong{color:var(--accent)}
+.image-upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.image-preview{margin-top:12px;position:relative;display:inline-block}
+.image-preview img{max-width:100%;max-height:200px;border-radius:8px}
+.image-preview .remove-btn{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;background:var(--danger);color:#fff;border:none;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* HTML Editor */
+.html-section{margin-top:8px}
+.html-tabs{display:flex;gap:4px;margin-bottom:12px}
+.html-tab{padding:8px 16px;border-radius:8px 8px 0 0;border:1px solid var(--border);border-bottom:none;background:var(--bg);color:var(--text-dim);font-size:12px;cursor:pointer;font-family:var(--font)}
+.html-tab.active{background:var(--card);color:var(--accent);border-color:var(--accent)}
+.html-editor{width:100%;min-height:300px;padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:0 8px 8px 8px;color:#b8d4b8;font-family:'Space Mono',monospace;font-size:13px;line-height:1.6;resize:vertical;outline:none;tab-size:2}
+.html-editor:focus{border-color:var(--accent)}
+
+/* Checkbox */
+.checkbox-group{display:flex;align-items:center;gap:8px}
+.checkbox-group input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:8px;background:var(--accent);color:#0a0a0f;font-size:13px;font-weight:500;transform:translateY(80px);opacity:0;transition:all .3s;z-index:999}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.error{background:var(--danger);color:#fff}
+
+/* Empty State */
+.empty-state{text-align:center;padding:80px 20px;color:var(--text-dim)}
+.empty-state .icon{font-size:48px;margin-bottom:16px;opacity:.3}
+.empty-state p{font-size:14px;margin-bottom:20px}
+
+/* Progress */
+.upload-progress{margin-top:8px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;display:none}
+.upload-progress .bar{height:100%;background:var(--accent);transition:width .2s;width:0%}
+
+@media(max-width:768px){
+  .topbar{padding:12px 16px}
+  .main{padding:16px}
+  .form-row{grid-template-columns:1fr}
+  .card-item{flex-wrap:wrap}
+  .card-thumb{width:60px;height:38px}
+  .modal{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h1>知識剪貼簿</h1>
+    <p>管理後台登入</p>
+    <div class="login-error" id="loginError"></div>
+    <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
+    <input type="password" id="loginPassword" placeholder="密碼" autocomplete="current-password">
+    <button class="btn btn-primary" style="width:100%" id="loginBtn">登入</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app">
+  <div class="topbar">
+    <h1>✦ 知識剪貼簿 <span style="font-size:12px;color:var(--text-dim);font-weight:400">管理後台</span></h1>
+    <div class="topbar-actions">
+      <span class="topbar-user" id="userEmail"></span>
+      <a href="/" class="btn btn-sm" target="_blank">查看前台 ↗</a>
+      <button class="btn btn-sm" id="logoutBtn">登出</button>
+    </div>
+  </div>
+  <div class="main">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <h2>作品卡片管理</h2>
+      <button class="btn btn-primary" id="createBtn">＋ 新增卡片</button>
+    </div>
+    <div class="card-list" id="cardList"></div>
+  </div>
+</div>
+
+<!-- EDIT/CREATE MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" id="modalCloseBtn">&times;</button>
+    <h2 id="modalTitle">新增卡片</h2>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>標題</label>
+        <input type="text" id="f_title" placeholder="作品名稱">
+      </div>
+      <div class="form-group">
+        <label>標籤</label>
+        <input type="text" id="f_tag" placeholder="互動網站" value="互動網站">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>描述</label>
+      <textarea id="f_desc" placeholder="簡短描述這個作品..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>顯示圖片</label>
+      <div class="image-upload-zone" id="imageZone">
+        <input type="file" id="imageInput" accept="image/*">
+        <div class="hint" id="imageHint">
+          拖拉圖片到此處，或<strong>點擊上傳</strong><br>
+          <span style="font-size:11px">支援 JPG, PNG, GIF, WebP, SVG</span>
+        </div>
+      </div>
+      <div class="image-preview" id="imagePreview" style="display:none">
+        <img id="previewImg">
+        <button class="remove-btn" id="removeImgBtn" title="移除圖片">&times;</button>
+      </div>
+      <div class="upload-progress" id="imgProgress"><div class="bar" id="imgProgressBar"></div></div>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="f_visible" checked>
+        <label for="f_visible" style="margin:0;cursor:pointer">在前台顯示此卡片</label>
+      </div>
+    </div>
+
+    <div class="form-group html-section">
+      <label>HTML 內容頁</label>
+      <div class="html-tabs">
+        <button class="html-tab active" data-tab="editor">程式碼編輯</button>
+        <button class="html-tab" data-tab="upload">上傳檔案</button>
+      </div>
+      <div id="htmlEditorPane">
+        <textarea class="html-editor" id="f_html" placeholder="在此貼上或編輯 HTML 內容..."></textarea>
+      </div>
+      <div id="htmlUploadPane" style="display:none">
+        <div class="image-upload-zone" style="padding:24px">
+          <input type="file" id="htmlFileInput" accept=".html,.htm">
+          <div class="hint">拖拉 .html 檔案到此處，或<strong>點擊上傳</strong></div>
+        </div>
+        <div id="htmlFileName" style="font-size:12px;color:var(--text-dim);margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:24px">
+      <button class="btn" id="cancelBtn">取消</button>
+      <button class="btn btn-primary" id="saveBtn">儲存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getFirestore, collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
+
+// >>>>>> 請將下方替換為你的 Firebase 設定 <<<<<<
+const firebaseConfig = {
+  apiKey: "AIzaSyAgi3yrbUYdN6HFQj-oymAmsf6QcpenSxU",
+  authDomain: "jack-notebook.firebaseapp.com",
+  projectId: "jack-notebook",
+  storageBucket: "jack-notebook.firebasestorage.app",
+  messagingSenderId: "750820076203",
+  appId: "1:750820076203:web:ddc2755f1eef68f8c065ee",
+  measurementId: "G-Q7VXKJNXQZ"
+};
+// >>>>>> 設定結束 <<<<<<
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+// ===================== State =====================
+let cards = [];
+let editingId = null;
+let pendingImageFile = null;
+let currentImageUrl = null;    // existing image URL for editing
+let currentImagePath = null;   // existing Storage path for deletion
+
+// ===================== Auth =====================
+onAuthStateChanged(auth, user => {
+  if (user) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('userEmail').textContent = user.email;
+    loadCards();
+  } else {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
+  }
+});
+
+document.getElementById('loginBtn').addEventListener('click', doLogin);
+document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  try {
+    await signInWithEmailAndPassword(auth, email, pw);
+    errEl.style.display = 'none';
+  } catch (e) {
+    errEl.textContent = e.code === 'auth/invalid-credential' ? '帳號或密碼錯誤' : e.message;
+    errEl.style.display = 'block';
+  }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+
+// ===================== Load Cards =====================
+async function loadCards() {
+  try {
+    const q = query(collection(db, 'cards'), orderBy('sortOrder'));
+    const snap = await getDocs(q);
+    cards = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderCards();
+  } catch (e) {
+    console.error(e);
+    toast('載入失敗', true);
+  }
+}
+
+function renderCards() {
+  const list = document.getElementById('cardList');
+  if (cards.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">✦</div>
+        <p>還沒有任何作品卡片</p>
+        <button class="btn btn-primary" id="emptyCreateBtn">＋ 新增第一張卡片</button>
+      </div>`;
+    document.getElementById('emptyCreateBtn')?.addEventListener('click', openCreateModal);
+    return;
+  }
+  list.innerHTML = cards.map(c => `
+    <div class="card-item" draggable="true" data-id="${c.id}">
+      <span class="drag-handle">⠿</span>
+      <div class="card-thumb">
+        ${c.imageUrl ? `<img src="${c.imageUrl}" alt="">` : `<div class="no-img">✦</div>`}
+      </div>
+      <div class="card-info">
+        <h3>${esc(c.title)}</h3>
+        <div class="meta">
+          <span class="tag-badge">${esc(c.tag || '')}</span>
+          ${!c.isVisible ? '<span class="hidden-badge">已隱藏</span>' : ''}
+          <span>${esc(c.desc || '')}</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-sm edit-btn" data-id="${c.id}">編輯</button>
+        <button class="btn btn-sm btn-danger del-btn" data-id="${c.id}">刪除</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Bind events
+  list.querySelectorAll('.edit-btn').forEach(b => b.addEventListener('click', () => openEditModal(b.dataset.id)));
+  list.querySelectorAll('.del-btn').forEach(b => b.addEventListener('click', () => deleteCard(b.dataset.id)));
+
+  // Drag reorder
+  list.querySelectorAll('.card-item').forEach(el => {
+    el.addEventListener('dragstart', e => { e.dataTransfer.effectAllowed = 'move'; el.classList.add('dragging'); el._dragId = el.dataset.id; });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+    el.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+    el.addEventListener('drop', async e => {
+      e.preventDefault();
+      const fromEl = list.querySelector('.dragging');
+      if (!fromEl || fromEl === el) return;
+      const fromId = fromEl.dataset.id;
+      const toId = el.dataset.id;
+      const fromIdx = cards.findIndex(c => c.id === fromId);
+      const toIdx = cards.findIndex(c => c.id === toId);
+      const [moved] = cards.splice(fromIdx, 1);
+      cards.splice(toIdx, 0, moved);
+      renderCards();
+      // Save order to Firestore
+      try {
+        await Promise.all(cards.map((c, i) => updateDoc(doc(db, 'cards', c.id), { sortOrder: i })));
+        toast('排序已更新');
+      } catch (err) { toast('排序儲存失敗', true); }
+    });
+  });
+}
+
+// ===================== Create / Edit Modal =====================
+document.getElementById('createBtn').addEventListener('click', openCreateModal);
+
+function openCreateModal() {
+  editingId = null;
+  pendingImageFile = null;
+  currentImageUrl = null;
+  currentImagePath = null;
+  document.getElementById('modalTitle').textContent = '新增卡片';
+  document.getElementById('f_title').value = '';
+  document.getElementById('f_tag').value = '互動網站';
+  document.getElementById('f_desc').value = '';
+  document.getElementById('f_visible').checked = true;
+  document.getElementById('f_html').value = '';
+  document.getElementById('htmlFileName').textContent = '';
+  resetImagePreview();
+  document.getElementById('modal').classList.add('open');
+}
+
+async function openEditModal(id) {
+  editingId = id;
+  pendingImageFile = null;
+  document.getElementById('modalTitle').textContent = '編輯卡片';
+
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+
+  document.getElementById('f_title').value = card.title || '';
+  document.getElementById('f_tag').value = card.tag || '';
+  document.getElementById('f_desc').value = card.desc || '';
+  document.getElementById('f_visible').checked = card.isVisible !== false;
+
+  // Image
+  currentImageUrl = card.imageUrl || null;
+  currentImagePath = card.imagePath || null;
+  if (currentImageUrl) {
+    document.getElementById('imageZone').style.display = 'none';
+    document.getElementById('imagePreview').style.display = 'inline-block';
+    document.getElementById('previewImg').src = currentImageUrl;
+  } else {
+    resetImagePreview();
+  }
+
+  // HTML content
+  document.getElementById('f_html').value = '';
+  document.getElementById('htmlFileName').textContent = card.htmlPath || '';
+  if (card.htmlUrl) {
+    try {
+      const res = await fetch(card.htmlUrl);
+      if (res.ok) document.getElementById('f_html').value = await res.text();
+    } catch (e) { console.warn('無法載入 HTML 內容'); }
+  }
+
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  editingId = null;
+}
+
+document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+document.getElementById('cancelBtn').addEventListener('click', closeModal);
+document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ===================== Save Card =====================
+document.getElementById('saveBtn').addEventListener('click', saveCard);
+
+async function saveCard() {
+  const title = document.getElementById('f_title').value.trim();
+  if (!title) { toast('請輸入標題', true); return; }
+
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = '儲存中...';
+
+  try {
+    const data = {
+      title,
+      tag: document.getElementById('f_tag').value.trim(),
+      desc: document.getElementById('f_desc').value.trim(),
+      isVisible: document.getElementById('f_visible').checked,
+      updatedAt: serverTimestamp(),
+    };
+
+    let cardId = editingId;
+
+    if (editingId) {
+      await updateDoc(doc(db, 'cards', editingId), data);
+    } else {
+      data.sortOrder = cards.length;
+      data.createdAt = serverTimestamp();
+      data.imageUrl = '';
+      data.imagePath = '';
+      data.htmlUrl = '';
+      data.htmlPath = '';
+      const docRef = await addDoc(collection(db, 'cards'), data);
+      cardId = docRef.id;
+    }
+
+    // Upload image if pending
+    if (pendingImageFile) {
+      // Delete old image if exists
+      if (currentImagePath) {
+        try { await deleteObject(ref(storage, currentImagePath)); } catch (e) {}
+      }
+      const ext = pendingImageFile.name.split('.').pop();
+      const path = `images/${cardId}_${Date.now()}.${ext}`;
+      const imgRef = ref(storage, path);
+
+      // Upload with progress
+      const progressEl = document.getElementById('imgProgress');
+      const barEl = document.getElementById('imgProgressBar');
+      progressEl.style.display = 'block';
+      const task = uploadBytesResumable(imgRef, pendingImageFile);
+      await new Promise((resolve, reject) => {
+        task.on('state_changed',
+          snap => { barEl.style.width = (snap.bytesTransferred / snap.totalBytes * 100) + '%'; },
+          reject,
+          resolve
+        );
+      });
+      progressEl.style.display = 'none';
+
+      const url = await getDownloadURL(imgRef);
+      await updateDoc(doc(db, 'cards', cardId), { imageUrl: url, imagePath: path });
+    }
+
+    // Save HTML
+    const htmlContent = document.getElementById('f_html').value;
+    if (htmlContent.trim()) {
+      const card = cards.find(c => c.id === cardId);
+      // Delete old HTML if exists
+      if (card?.htmlPath) {
+        try { await deleteObject(ref(storage, card.htmlPath)); } catch (e) {}
+      }
+      const htmlPath = `sites/${cardId}_${Date.now()}.html`;
+      const htmlRef = ref(storage, htmlPath);
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      await uploadBytes(htmlRef, blob);
+      const htmlUrl = await getDownloadURL(htmlRef);
+      await updateDoc(doc(db, 'cards', cardId), { htmlUrl, htmlPath });
+    }
+
+    toast(editingId ? '已更新' : '已新增');
+    closeModal();
+    await loadCards();
+  } catch (e) {
+    console.error(e);
+    toast(e.message || '儲存失敗', true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '儲存';
+  }
+}
+
+// ===================== Delete Card =====================
+async function deleteCard(id) {
+  const card = cards.find(c => c.id === id);
+  if (!confirm(`確定要刪除「${card?.title}」嗎？此動作無法復原。`)) return;
+  try {
+    // Delete storage files
+    if (card.imagePath) { try { await deleteObject(ref(storage, card.imagePath)); } catch (e) {} }
+    if (card.htmlPath) { try { await deleteObject(ref(storage, card.htmlPath)); } catch (e) {} }
+    await deleteDoc(doc(db, 'cards', id));
+    toast('已刪除');
+    await loadCards();
+  } catch (e) {
+    toast('刪除失敗', true);
+  }
+}
+
+// ===================== Image Drag & Drop =====================
+const imageZone = document.getElementById('imageZone');
+const imageInput = document.getElementById('imageInput');
+
+imageZone.addEventListener('dragover', e => { e.preventDefault(); imageZone.classList.add('dragover'); });
+imageZone.addEventListener('dragleave', () => imageZone.classList.remove('dragover'));
+imageZone.addEventListener('drop', e => {
+  e.preventDefault();
+  imageZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) handleImageFile(file);
+});
+imageInput.addEventListener('change', e => { if (e.target.files[0]) handleImageFile(e.target.files[0]); });
+
+function handleImageFile(file) {
+  pendingImageFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    imageZone.style.display = 'none';
+    document.getElementById('imagePreview').style.display = 'inline-block';
+    document.getElementById('previewImg').src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+document.getElementById('removeImgBtn').addEventListener('click', async () => {
+  pendingImageFile = null;
+  if (editingId && currentImagePath) {
+    try {
+      await deleteObject(ref(storage, currentImagePath));
+      await updateDoc(doc(db, 'cards', editingId), { imageUrl: '', imagePath: '' });
+      currentImageUrl = null;
+      currentImagePath = null;
+      toast('圖片已移除');
+    } catch (e) { toast('移除失敗', true); }
+  }
+  resetImagePreview();
+});
+
+function resetImagePreview() {
+  document.getElementById('imageZone').style.display = 'block';
+  document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('previewImg').src = '';
+  document.getElementById('imageInput').value = '';
+}
+
+// ===================== HTML Tabs =====================
+document.querySelectorAll('.html-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.html-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const mode = tab.dataset.tab;
+    document.getElementById('htmlEditorPane').style.display = mode === 'editor' ? 'block' : 'none';
+    document.getElementById('htmlUploadPane').style.display = mode === 'upload' ? 'block' : 'none';
+  });
+});
+
+document.getElementById('htmlFileInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) {
+    document.getElementById('htmlFileName').textContent = `已選擇: ${file.name}`;
+    const reader = new FileReader();
+    reader.onload = ev => { document.getElementById('f_html').value = ev.target.result; };
+    reader.readAsText(file);
+  }
+});
+
+// ===================== Utils =====================
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function toast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 2500);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>胃食道逆流完全指南 — 40歲男性專屬方案</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0a0f1a;--bg2:#111827;--bg3:#1a2332;--bg4:#243044;
+--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+--accent:#22d3ee;--accent2:#06b6d4;--accent3:#0891b2;
+--warm:#f59e0b;--warm2:#d97706;
+--red:#ef4444;--green:#10b981;--purple:#a78bfa;
+--border:#1e293b;
+--card:rgba(17,24,39,.85);
+--glass:rgba(30,41,59,.6);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans TC',sans-serif;line-height:1.8;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(34,211,238,.06),transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(245,158,11,.04),transparent 60%);pointer-events:none;z-index:0}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent3);border-radius:3px}
+
+/* Utility */
+.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.section{padding:80px 0}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';width:24px;height:1px;background:var(--accent)}
+.section-title{font-family:'Noto Serif TC',serif;font-size:2.2rem;font-weight:900;line-height:1.3;margin-bottom:16px;background:linear-gradient(135deg,var(--text),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.section-desc{color:var(--text2);font-size:1.05rem;max-width:680px;margin-bottom:40px}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg canvas{width:100%;height:100%}
+.hero-content{position:relative;z-index:2;max-width:720px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--border);border-radius:100px;padding:8px 20px;font-size:.8rem;color:var(--accent);margin-bottom:32px;backdrop-filter:blur(12px)}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:'Noto Serif TC',serif;font-size:clamp(2.4rem,5vw,3.6rem);font-weight:900;line-height:1.2;margin-bottom:24px}
+.hero h1 .highlight{background:linear-gradient(135deg,var(--accent),var(--warm));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.15rem;color:var(--text2);margin-bottom:40px;max-width:580px}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:520px}
+.hero-stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;backdrop-filter:blur(12px)}
+.hero-stat .num{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--accent);display:block}
+.hero-stat .lab{font-size:.8rem;color:var(--text3);margin-top:4px}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;transition:all .3s}
+.nav.scrolled{background:rgba(10,15,26,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Noto Serif TC',serif;font-weight:900;font-size:1.1rem;color:var(--accent)}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap}
+.nav-links a{color:var(--text3);font-size:.82rem;padding:6px 14px;border-radius:8px;text-decoration:none;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);background:rgba(34,211,238,.08)}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;backdrop-filter:blur(12px);transition:all .3s}
+.card:hover{border-color:var(--accent3);transform:translateY(-2px)}
+.card-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:16px}
+.card h3{font-family:'Noto Serif TC',serif;font-size:1.2rem;font-weight:700;margin-bottom:8px}
+.card p{color:var(--text2);font-size:.92rem}
+
+/* Grid */
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+
+/* Tabs */
+.tabs{display:flex;gap:6px;margin-bottom:32px;flex-wrap:wrap}
+.tab{padding:10px 22px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:'Noto Sans TC',sans-serif;font-size:.9rem;transition:all .2s}
+.tab:hover{border-color:var(--accent3);color:var(--text)}
+.tab.active{background:linear-gradient(135deg,var(--accent3),var(--accent2));color:#fff;border-color:transparent}
+.tab-panel{display:none;animation:fadeUp .4s ease}
+.tab-panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Timeline */
+.timeline{position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--accent),var(--warm),var(--green))}
+.timeline-item{position:relative;margin-bottom:28px}
+.timeline-item::before{content:'';position:absolute;left:-29px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);z-index:1}
+.timeline-item h4{font-size:1rem;font-weight:700;margin-bottom:4px}
+.timeline-item p{color:var(--text2);font-size:.9rem}
+.timeline-item .time{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);margin-bottom:4px}
+
+/* Accordion */
+.accordion{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px;background:var(--card)}
+.accordion-header{padding:20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:1rem;transition:background .2s}
+.accordion-header:hover{background:var(--bg3)}
+.accordion-header .arrow{transition:transform .3s;color:var(--accent);font-size:1.2rem}
+.accordion.open .arrow{transform:rotate(180deg)}
+.accordion-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.accordion.open .accordion-body{max-height:2000px}
+.accordion-content{padding:0 24px 24px;color:var(--text2);font-size:.92rem}
+.accordion-content ul{list-style:none;padding:0}
+.accordion-content li{padding:8px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.accordion-content li:last-child{border:none}
+.accordion-content li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:2px}
+
+/* Risk Meter */
+.risk-meter{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;margin-bottom:40px}
+.meter-bar{height:12px;background:var(--bg);border-radius:6px;overflow:hidden;margin:20px 0 12px;position:relative}
+.meter-fill{height:100%;border-radius:6px;transition:width 1s ease}
+.meter-labels{display:flex;justify-content:space-between;font-size:.75rem;color:var(--text3)}
+
+/* Checklist */
+.checklist{list-style:none}
+.checklist li{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .2s}
+.checklist li:last-child{border:none}
+.checklist .check{width:22px;height:22px;border-radius:7px;border:2px solid var(--accent3);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:2px}
+.checklist li.done .check{background:var(--green);border-color:var(--green)}
+.checklist li.done .check::after{content:'✓';color:#fff;font-size:.75rem}
+.checklist li.done span{text-decoration:line-through;opacity:.5}
+
+/* Research */
+.ref{background:var(--bg3);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;padding:16px 20px;margin-bottom:12px;font-size:.85rem}
+.ref .authors{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:.75rem}
+.ref .title{font-weight:700;margin:4px 0}
+.ref .journal{color:var(--text3);font-size:.8rem}
+
+/* Food table */
+.food-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.food-item{background:var(--bg3);border-radius:14px;padding:16px;text-align:center;border:1px solid transparent;transition:all .2s}
+.food-item:hover{border-color:var(--accent3)}
+.food-item .emoji{font-size:2rem;margin-bottom:8px;display:block}
+.food-item .name{font-size:.85rem;font-weight:700}
+.food-item .note{font-size:.75rem;color:var(--text3);margin-top:4px}
+.food-item.avoid{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.05)}
+.food-item.good{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)}
+
+/* Tags */
+.tag{display:inline-block;padding:4px 12px;border-radius:100px;font-size:.72rem;font-weight:700;letter-spacing:.5px}
+.tag-green{background:rgba(16,185,129,.15);color:var(--green)}
+.tag-red{background:rgba(239,68,68,.15);color:var(--red)}
+.tag-yellow{background:rgba(245,158,11,.15);color:var(--warm)}
+.tag-blue{background:rgba(34,211,238,.15);color:var(--accent)}
+
+/* Symptom Tracker */
+.tracker{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px}
+.tracker h3{font-family:'Noto Serif TC',serif;margin-bottom:20px}
+.tracker-row{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.tracker-row label{min-width:100px;font-size:.9rem;color:var(--text2)}
+.slider-wrap{flex:1;min-width:200px;display:flex;align-items:center;gap:12px}
+.slider-wrap input[type=range]{flex:1;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--bg);outline:none}
+.slider-wrap input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--bg2)}
+.slider-val{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--accent);min-width:28px;text-align:center}
+.tracker-result{margin-top:24px;padding:20px;background:var(--bg);border-radius:14px;font-size:.92rem}
+
+/* Exercise */
+.exercise-card{background:var(--bg3);border-radius:16px;padding:24px;border:1px solid var(--border)}
+.exercise-card .intensity{display:flex;gap:4px;margin:8px 0}
+.exercise-card .intensity .bar{width:20px;height:6px;border-radius:3px;background:var(--border)}
+.exercise-card .intensity .bar.filled{background:var(--accent)}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(245,158,11,.1));border:1px solid rgba(34,211,238,.2);border-radius:20px;padding:40px;text-align:center;margin:40px 0}
+.cta-box h3{font-family:'Noto Serif TC',serif;font-size:1.5rem;margin-bottom:12px}
+
+/* Footer */
+.footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;color:var(--text3);font-size:.8rem}
+
+/* Progress bar */
+.progress-ring{display:inline-block;position:relative}
+.progress-ring svg{transform:rotate(-90deg)}
+.progress-ring .label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.1rem}
+
+/* Tooltip */
+.tip{position:relative;cursor:help;border-bottom:1px dashed var(--accent3)}
+.tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--bg4);color:var(--text);padding:8px 14px;border-radius:10px;font-size:.78rem;white-space:nowrap;z-index:10;border:1px solid var(--border)}
+
+/* Animation */
+.fade-in{opacity:0;transform:translateY(20px);transition:all .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* Responsive */
+@media(max-width:768px){
+.hero-stats{grid-template-columns:1fr}
+.nav-links{display:none}
+.section{padding:50px 0}
+.section-title{font-size:1.7rem}
+}
+
+/* Detail list */
+.detail-list{list-style:none}
+.detail-list li{padding:12px 0;border-bottom:1px solid var(--border);font-size:.92rem;display:flex;gap:10px}
+.detail-list li::before{content:'◆';color:var(--accent);flex-shrink:0;font-size:.6rem;margin-top:6px}
+
+/* Supplement table */
+.supp-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.supp-table th{text-align:left;padding:12px 16px;background:var(--bg3);color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:1px;text-transform:uppercase}
+.supp-table td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+.supp-table tr:hover td{background:rgba(34,211,238,.03)}
+
+/* Weekly plan */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:20px 0}
+.week-day{background:var(--bg3);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border);font-size:.8rem}
+.week-day .day-name{font-weight:700;color:var(--accent);font-size:.72rem;margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+@media(max-width:768px){.week-grid{grid-template-columns:repeat(2,1fr)}}
+
+.stress-technique{background:var(--bg3);border-radius:16px;padding:20px;margin-bottom:12px;border-left:3px solid var(--purple)}
+.stress-technique h4{color:var(--purple);margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+<div class="nav-inner">
+<div class="nav-logo">⚕ 逆流指南</div>
+<div class="nav-links">
+<a href="#understand">認識病症</a>
+<a href="#risk">風險評估</a>
+<a href="#diet">飲食方案</a>
+<a href="#lifestyle">生活調整</a>
+<a href="#exercise">運動處方</a>
+<a href="#meds">藥物治療</a>
+<a href="#stress">壓力管理</a>
+<a href="#sleep">睡眠優化</a>
+<a href="#tracker">症狀追蹤</a>
+<a href="#research">研究文獻</a>
+</div>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+<div class="container">
+<div class="hero-content">
+<div class="hero-badge"><span class="dot"></span> 40歲男性・輕度 GERD 專屬方案</div>
+<h1>掌控你的<br><span class="highlight">胃食道逆流</span><br>完全行動指南</h1>
+<p>以實證醫學為基礎，涵蓋飲食、運動、睡眠、壓力管理與藥物治療的全面策略。從今天開始，用科學方法讓逆流不再困擾你的生活。</p>
+<div class="hero-stats">
+<div class="hero-stat"><span class="num">20%</span><span class="lab">全球成人盛行率</span></div>
+<div class="hero-stat"><span class="num">40s</span><span class="lab">男性好發高峰年齡</span></div>
+<div class="hero-stat"><span class="num">85%</span><span class="lab">生活調整可改善比例</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- UNDERSTAND -->
+<section class="section" id="understand">
+<div class="container">
+<div class="section-label">Understanding GERD</div>
+<div class="section-title">什麼是胃食道逆流？</div>
+<div class="section-desc">當下食道括約肌（LES）功能減弱，胃酸與胃內容物回流至食道，引發燒灼感與不適。了解機轉是管理的第一步。</div>
+
+<div class="grid-2">
+<div class="card">
+<div class="card-icon" style="background:rgba(34,211,238,.12)">🔬</div>
+<h3>核心病理機轉</h3>
+<p>下食道括約肌（LES）是食道與胃交界處的環狀肌肉，正常時維持 10-30 mmHg 的壓力防止胃酸回流。當 LES 壓力降低至 <10 mmHg，或發生一過性鬆弛（TLESR，Transient LES Relaxation），胃酸即可逆流進入食道。食道黏膜缺乏胃部的黏液-碳酸氫鹽屏障，因此暴露於 pH<4 的環境會直接造成組織損傷。</p>
+</div>
+<div class="card">
+<div class="card-icon" style="background:rgba(245,158,11,.12)">⚠️</div>
+<h3>40歲男性特定風險</h3>
+<p>男性的 GERD 風險是女性的 1.5-2 倍（OR=1.57, 95% CI: 1.34-1.84）。40歲階段面臨：代謝率下降導致腹部脂肪增加、工作壓力高峰期、社交飲酒頻繁、久坐辦公增加腹壓、以及隨年齡增長的食道蠕動效率遞減。此外，男性裂孔疝（Hiatal Hernia）發生率隨年齡上升，為 GERD 重要結構因素。</p>
+</div>
+</div>
+
+<div style="margin-top:32px">
+<div class="grid-3">
+<div class="card" style="border-left:3px solid var(--red)">
+<h3>典型症狀</h3>
+<ul class="detail-list">
+<li>胸骨後灼熱感（Heartburn）：飯後30分鐘至2小時加劇</li>
+<li>酸液反流（Regurgitation）：酸苦味液體逆流至口咽</li>
+<li>吞嚥困難（Dysphagia）：食團通過困難感</li>
+<li>胸痛：需先排除心臟疾病</li>
+</ul>
+</div>
+<div class="card" style="border-left:3px solid var(--warm)">
+<h3>非典型症狀</h3>
+<ul class="detail-list">
+<li>慢性咳嗽：尤其夜間平臥時加劇，佔慢性咳嗽原因 20-40%</li>
+<li>聲音沙啞（Laryngopharyngeal Reflux）：晨起明顯</li>
+<li>咽喉異物感（Globus Sensation）：持續性喉嚨緊縮</li>
+<li>氣喘惡化：GERD 為成人氣喘誘因之一</li>
+<li>牙齒侵蝕：胃酸破壞牙釉質</li>
+</ul>
+</div>
+<div class="card" style="border-left:3px solid var(--green)">
+<h3>輕度 GERD 定義</h3>
+<ul class="detail-list">
+<li>症狀頻率：每週 ≤2 次</li>
+<li>Los Angeles 分級 A 或 B</li>
+<li>無食道狹窄或Barrett食道</li>
+<li>DeMeester Score < 14.72</li>
+<li>不影響日常功能</li>
+<li>無警示症狀（吞嚥困難、體重減輕、出血）</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- RISK ASSESSMENT -->
+<section class="section" id="risk" style="background:var(--bg2)">
+<div class="container">
+<div class="section-label">Risk Assessment</div>
+<div class="section-title">互動風險評估</div>
+<div class="section-desc">勾選以下項目，了解你的個人化風險程度與優先改善方向。</div>
+
+<div class="risk-meter" id="riskTool">
+<h3 style="font-family:'Noto Serif TC',serif;margin-bottom:20px">個人風險因子檢查表</h3>
+<div id="riskChecks" style="column-count:2;column-gap:24px;margin-bottom:24px">
+</div>
+<div class="meter-bar"><div class="meter-fill" id="riskFill" style="width:0;background:linear-gradient(90deg,var(--green),var(--warm),var(--red))"></div></div>
+<div class="meter-labels"><span>低風險</span><span>中等風險</span><span>高風險</span></div>
+<div id="riskResult" class="tracker-result" style="margin-top:20px">請勾選上方項目以查看評估結果。</div>
+</div>
+</div>
+</section>
+
+<!-- DIET -->
+<section class="section" id="diet">
+<div class="container">
+<div class="section-label">Dietary Protocol</div>
+<div class="section-title">飲食完全方案</div>
+<div class="section-desc">飲食調整是輕度 GERD 最關鍵的介入手段。以下整合 ACG 指南、AGA 建議及最新臨床研究的實證飲食策略。</div>
+
+<div class="tabs" id="dietTabs">
+<button class="tab active" data-tab="avoid">🚫 應避免食物</button>
+<button class="tab" data-tab="safe">✅ 建議食物</button>
+<button class="tab" data-tab="meal">🍽 每日餐盤範例</button>
+<button class="tab" data-tab="eating">🥢 進食技巧</button>
+</div>
+
+<div class="tab-panel active" id="tab-avoid">
+<p style="color:var(--text2);margin-bottom:20px;font-size:.92rem">以下食物經研究證實可降低 LES 壓力、延遲胃排空或直接刺激食道黏膜，應優先減少或避免：</p>
+<div class="food-grid">
+<div class="food-item avoid"><span class="emoji">☕</span><span class="name">咖啡</span><span class="note">咖啡因降低LES壓力 6-8 mmHg</span></div>
+<div class="food-item avoid"><span class="emoji">🍫</span><span class="name">巧克力</span><span class="note">含甲基黃嘌呤放鬆LES</span></div>
+<div class="food-item avoid"><span class="emoji">🍺</span><span class="name">酒精</span><span class="note">直接損傷食道黏膜</span></div>
+<div class="food-item avoid"><span class="emoji">🍊</span><span class="name">柑橘類</span><span class="note">pH 2-3 直接酸性刺激</span></div>
+<div class="food-item avoid"><span class="emoji">🍅</span><span class="name">番茄製品</span><span class="note">pH 4.3 + 促進胃酸分泌</span></div>
+<div class="food-item avoid"><span class="emoji">🌶</span><span class="name">辛辣食物</span><span class="note">辣椒素刺激食道 TRPV1</span></div>
+<div class="food-item avoid"><span class="emoji">🧅</span><span class="name">生洋蔥</span><span class="note">促進 TLESR 頻率增加</span></div>
+<div class="food-item avoid"><span class="emoji">🥤</span><span class="name">碳酸飲料</span><span class="note">CO₂ 脹氣增加腹壓</span></div>
+<div class="food-item avoid"><span class="emoji">🍟</span><span class="name">高脂炸物</span><span class="note">延遲胃排空 + 降低LES壓力</span></div>
+<div class="food-item avoid"><span class="emoji">🧄</span><span class="name">大蒜（生食）</span><span class="note">含硫化物刺激黏膜</span></div>
+<div class="food-item avoid"><span class="emoji">🍬</span><span class="name">薄荷</span><span class="note">薄荷醇直接放鬆LES</span></div>
+<div class="food-item avoid"><span class="emoji">🥓</span><span class="name">加工肉品</span><span class="note">高脂 + 亞硝酸鹽雙重刺激</span></div>
+</div>
+
+<div style="margin-top:32px;padding:24px;background:var(--bg3);border-radius:16px">
+<h4 style="color:var(--warm);margin-bottom:12px">⚡ 關鍵數據：高脂飲食的影響</h4>
+<p style="font-size:.9rem;color:var(--text2)">研究顯示，攝取>40g 脂肪的餐食可使食道酸暴露時間延長 2.7 倍（p<0.01），TLESR 頻率增加 40%。相反，低脂飲食（<45g/日）可在 2 週內使症狀評分降低 50%。一項 2006 年的研究追蹤 371 名 GERD 患者發現，高脂飲食與 GERD 症狀呈顯著正相關（OR=1.7, CI:1.1-2.5）。</p>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-safe">
+<p style="color:var(--text2);margin-bottom:20px;font-size:.92rem">以下食物有助於緩衝胃酸、促進食道修復或維持 LES 功能：</p>
+<div class="food-grid">
+<div class="food-item good"><span class="emoji">🥬</span><span class="name">綠色蔬菜</span><span class="note">鹼性、高纖維促進蠕動</span></div>
+<div class="food-item good"><span class="emoji">🍌</span><span class="name">香蕉</span><span class="note">pH 5.0 天然制酸</span></div>
+<div class="food-item good"><span class="emoji">🥣</span><span class="name">燕麥</span><span class="note">可溶性纖維吸附多餘胃酸</span></div>
+<div class="food-item good"><span class="emoji">🍠</span><span class="name">地瓜</span><span class="note">鹼性複合碳水化合物</span></div>
+<div class="food-item good"><span class="emoji">🐔</span><span class="name">雞胸肉</span><span class="note">低脂優質蛋白來源</span></div>
+<div class="food-item good"><span class="emoji">🐟</span><span class="name">清蒸魚</span><span class="note">Omega-3 抗發炎</span></div>
+<div class="food-item good"><span class="emoji">🫚</span><span class="name">薑</span><span class="note">促進胃排空、抗噁心</span></div>
+<div class="food-item good"><span class="emoji">🥒</span><span class="name">小黃瓜</span><span class="note">pH 5.1-5.7 高含水量</span></div>
+<div class="food-item good"><span class="emoji">🥑</span><span class="name">酪梨（適量）</span><span class="note">健康單元不飽和脂肪</span></div>
+<div class="food-item good"><span class="emoji">🍚</span><span class="name">白飯/糙米</span><span class="note">溫和澱粉、易消化</span></div>
+<div class="food-item good"><span class="emoji">🥛</span><span class="name">低脂牛奶</span><span class="note">短暫緩衝（勿睡前飲用）</span></div>
+<div class="food-item good"><span class="emoji">🍯</span><span class="name">蜂蜜（麥盧卡）</span><span class="note">抗菌+黏膜保護</span></div>
+</div>
+
+<div style="margin-top:32px;padding:24px;background:var(--bg3);border-radius:16px">
+<h4 style="color:var(--green);margin-bottom:12px">🔬 地中海飲食的實證</h4>
+<p style="font-size:.9rem;color:var(--text2)">Zalvan et al.（2017）在《JAMA Otolaryngology》發表的研究顯示，以植物為主的地中海飲食搭配鹼性水（pH>8）在治療 LPR（喉咽逆流）上的效果可媲美 PPI 治療（RSI 改善率 62.6% vs 54.1%），且無藥物副作用。研究建議將每日蔬果比例提高至飲食的 60-70%。</p>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-meal">
+<h4 style="margin-bottom:20px">一日三餐 + 兩次點心範例（約 1,800 kcal）</h4>
+<div class="timeline">
+<div class="timeline-item">
+<div class="time">07:00 早餐</div>
+<h4>燕麥香蕉碗</h4>
+<p>燕麥片 50g + 低脂牛奶 200ml + 半根香蕉切片 + 奇亞籽 10g + 少許蜂蜜。搭配溫開水 300ml。避免果汁或咖啡。約 380 kcal。</p>
+</div>
+<div class="timeline-item">
+<div class="time">10:00 上午點心</div>
+<h4>蘇打餅乾 + 堅果</h4>
+<p>全麥蘇打餅 4 片 + 無調味杏仁 10 顆。小份量分散胃酸濃度。約 150 kcal。</p>
+</div>
+<div class="timeline-item">
+<div class="time">12:00 午餐</div>
+<h4>清蒸雞胸便當</h4>
+<p>雞胸肉 120g 清蒸或水煮 + 糙米飯 150g + 清炒青江菜 + 蒸地瓜 80g。調味用少量鹽、薑絲，避免辣椒醬與醋。約 520 kcal。</p>
+</div>
+<div class="timeline-item">
+<div class="time">15:30 下午點心</div>
+<h4>無糖優格 + 木瓜</h4>
+<p>原味低脂優格 150g + 木瓜丁 100g。木瓜酵素有助消化蛋白質。約 130 kcal。</p>
+</div>
+<div class="timeline-item">
+<div class="time">18:30 晚餐（睡前3小時以上）</div>
+<h4>鮭魚味噌湯定食</h4>
+<p>烤鮭魚 100g + 白飯 120g + 味噌湯（豆腐+海帶芽）+ 涼拌小黃瓜 + 蒸蛋。晚餐份量為一日最小餐。約 480 kcal。</p>
+</div>
+</div>
+
+<div style="padding:20px;background:var(--bg3);border-radius:14px;margin-top:16px">
+<p style="font-size:.85rem;color:var(--text2)">💡 <strong>關鍵原則：</strong>每餐攝取量控制在胃容量的 60-70%（約 400-500ml），避免一次性大量進食造成胃擴張、增加 TLESR 頻率。晚餐與就寢至少間隔 3 小時（理想為 4 小時），使胃內容物有充分時間排空。</p>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-eating">
+<div class="grid-2">
+<div class="card">
+<h3>🍽 進食行為調整</h3>
+<ul class="detail-list">
+<li>每口咀嚼 20-30 次，一餐至少花 20 分鐘完成</li>
+<li>小口進食，每口食物約 10-15ml</li>
+<li>進餐時保持直立坐姿，不要邊走邊吃</li>
+<li>餐間飲水為主，進餐時少量啜飲避免稀釋胃酸</li>
+<li>飯後不要立即平躺，至少坐直或散步 30 分鐘</li>
+<li>少量多餐（一日 5-6 小餐）優於三大餐</li>
+<li>口香糖（非薄荷味）可刺激唾液分泌，中和食道酸性</li>
+</ul>
+</div>
+<div class="card">
+<h3>🧪 液體攝取策略</h3>
+<ul class="detail-list">
+<li>每日飲水 2000-2500ml，以溫開水為主</li>
+<li>鹼性水（pH 8.0-8.8）可中和胃蛋白酶活性</li>
+<li>餐前 30 分鐘飲水，餐後 1 小時再飲水</li>
+<li>蘆薈汁 30ml/日可減輕食道發炎（小型研究支持）</li>
+<li>薑茶溫飲可促進胃排空</li>
+<li>避免用吸管飲水（增加吞氣量）</li>
+<li>完全戒除碳酸飲料、能量飲料</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- LIFESTYLE -->
+<section class="section" id="lifestyle" style="background:var(--bg2)">
+<div class="container">
+<div class="section-label">Lifestyle Modification</div>
+<div class="section-title">日常生活優化清單</div>
+<div class="section-desc">ACG 臨床指南建議的核心生活調整措施，每一項皆有實證支持。點擊展開詳細說明。</div>
+
+<div id="accordions">
+<div class="accordion">
+<div class="accordion-header">🏋️ 體重管理：BMI 每降 1 點，症狀改善 10-15% <span class="arrow">▼</span></div>
+<div class="accordion-body"><div class="accordion-content">
+<p>體重過重是 GERD 最重要的可控風險因子。腹部脂肪直接增加腹內壓，推擠胃部並使 LES 功能受損。</p>
+<ul>
+<li>BMI >25 的男性 GERD 風險為正常體重的 1.94 倍（Singh et al., 2013）</li>
+<li>腰圍 >94cm 的男性 GERD 風險增加 2.4 倍</li>
+<li>每減輕 5% 體重，GERD 症狀可降低約 40%</li>
+<li>即使 BMI 正常，腹部脂肪比例偏高仍會增加風險</li>
+<li>建議目標：BMI 維持 20-24.9，腰圍 <90cm（亞洲男性標準）</li>
+<li>減重速率建議：每週 0.5-1kg，快速減重可能短暫惡化症狀</li>
+</ul>
+</div></div>
+</div>
+
+<div class="accordion">
+<div class="accordion-header">🛏 睡姿調整：左側臥 + 床頭抬高最有效 <span class="arrow">▼</span></div>
+<div class="accordion-body"><div class="accordion-content">
+<p>夜間逆流是食道損傷的主要原因，因為平臥時失去重力保護，且睡眠中唾液分泌和吞嚥頻率降低。</p>
+<ul>
+<li>床頭抬高 15-20cm（6-8 英寸）可減少夜間酸暴露 32%（Johnson & DeMeester, 1986）</li>
+<li>使用楔形枕（wedge pillow）而非額外枕頭，避免頸部彎折</li>
+<li>左側臥位使胃大彎位於下方，胃酸需對抗重力才能到達 LES</li>
+<li>右側臥位使 LES 浸泡在胃酸中，應完全避免</li>
+<li>Person et al.（2015）研究顯示左側臥可使酸暴露時間減少 71%</li>
+<li>避免穿著緊身睡衣，減少腹部壓迫</li>
+</ul>
+</div></div>
+</div>
+
+<div class="accordion">
+<div class="accordion-header">👔 服裝與姿勢：減少腹壓的隱形因素 <span class="arrow">▼</span></div>
+<div class="accordion-body"><div class="accordion-content">
+<ul>
+<li>避免束腰帶、緊身褲，腰帶鬆緊應容納一指寬度</li>
+<li>長時間辦公應每 45 分鐘起身走動</li>
+<li>避免彎腰提重物，改為蹲下後直腰起立</li>
+<li>駕車時調整座椅角度 100-110 度，避免過度前傾</li>
+<li>使用站立式辦公桌可減少飯後腹壓</li>
+<li>核心肌群訓練可幫助維持正確體態、減少腹壓</li>
+</ul>
+</div></div>
+</div>
+
+<div class="accordion">
+<div class="accordion-header">🚭 戒菸與限酒：LES 功能恢復的必要條件 <span class="arrow">▼</span></div>
+<div class="accordion-body"><div class="accordion-content">
+<ul>
+<li>尼古丁直接降低 LES 壓力約 30-40%，並減少唾液中碳酸氫鹽濃度</li>
+<li>吸菸者 GERD 風險為非吸菸者的 1.26-1.65 倍</li>
+<li>戒菸後 LES 壓力在 24-48 小時內即可開始恢復</li>
+<li>酒精方面，紅酒和啤酒的誘發效果最顯著</li>
+<li>若無法完全戒酒，限制每次攝取 ≤1 標準杯（14g 純酒精），且避免空腹飲酒</li>
+<li>酒精 + 高脂食物的組合是最強誘發因子，應絕對避免</li>
+</ul>
+</div></div>
+</div>
+
+<div class="accordion">
+<div class="accordion-header">💊 常見藥物交互影響 <span class="arrow">▼</span></div>
+<div class="accordion-body"><div class="accordion-content">
+<p>部分常用藥物可能惡化 GERD 症狀，如您正在服用以下藥物，建議諮詢醫師：</p>
+<ul>
+<li>鈣離子阻斷劑（Amlodipine 等）：降低 LES 壓力</li>
+<li>NSAIDs（Ibuprofen、Aspirin）：直接損傷胃食道黏膜</li>
+<li>茶鹼類（Theophylline）：放鬆 LES 平滑肌</li>
+<li>苯二氮卓類（Diazepam 等）：降低 LES 張力</li>
+<li>抗膽鹼藥物：延遲胃排空</li>
+<li>鐵劑：直接刺激食道黏膜，建議飯後服用並搭配大量水</li>
+<li>雙磷酸鹽類（Alendronate）：服用後保持直立 30 分鐘</li>
+</ul>
+</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- EXERCISE -->
+<section class="section" id="exercise">
+<div class="container">
+<div class="section-label">Exercise Prescription</div>
+<div class="section-title">運動處方箋</div>
+<div class="section-desc">運動可改善胃排空與降低壓力，但高強度運動反而可能加劇逆流。以下為基於實證的運動建議。</div>
+
+<div class="grid-3">
+<div class="exercise-card">
+<span class="tag tag-green">推薦</span>
+<h3 style="margin-top:12px">快走/健走</h3>
+<div class="intensity"><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+<p style="font-size:.88rem;color:var(--text2)">每次 30-45 分鐘，每週 5 次。飯後 30 分鐘後開始。中等速度（5-6 km/h）可促進胃蠕動與排空。Panda et al. 研究顯示飯後步行可減少胃酸反流事件達 30%。</p>
+</div>
+<div class="exercise-card">
+<span class="tag tag-green">推薦</span>
+<h3 style="margin-top:12px">游泳（非高強度）</h3>
+<div class="intensity"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div><div class="bar"></div></div>
+<p style="font-size:.88rem;color:var(--text2)">水中的浮力減少重力對腹部的壓力，蛙式和自由式較適合。每次 30 分鐘，每週 2-3 次。避免飯後 2 小時內游泳。仰式可能增加腹壓需注意。</p>
+</div>
+<div class="exercise-card">
+<span class="tag tag-green">推薦</span>
+<h3 style="margin-top:12px">瑜伽（選擇性體位）</h3>
+<div class="intensity"><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+<p style="font-size:.88rem;color:var(--text2)">站立體位與溫和扭轉有助消化。避免倒立、下犬式、深度前彎等增加腹壓的體位。推薦：戰士式、樹式、貓牛式。腹式呼吸可強化橫膈膜功能。</p>
+</div>
+<div class="exercise-card">
+<span class="tag tag-blue">適量可行</span>
+<h3 style="margin-top:12px">自行車（平路）</h3>
+<div class="intensity"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div><div class="bar"></div></div>
+<p style="font-size:.88rem;color:var(--text2)">直立式騎乘姿勢優於低趴競速姿勢。建議使用較高把手設定。飯後 1.5 小時以上再騎乘。每次 30-40 分鐘。</p>
+</div>
+<div class="exercise-card">
+<span class="tag tag-yellow">需注意</span>
+<h3 style="margin-top:12px">重量訓練</h3>
+<div class="intensity"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div></div>
+<p style="font-size:.88rem;color:var(--text2)">Valsalva 動作顯著增加腹內壓。避免深蹲、硬舉等大重量腹壓動作。可選擇坐姿器材訓練、低重量高次數（15-20 rep），且全程避免憋氣。Clark et al.（2003）發現重訓期間酸反流事件增加 3 倍。</p>
+</div>
+<div class="exercise-card">
+<span class="tag tag-red">應避免</span>
+<h3 style="margin-top:12px">高強度間歇（HIIT）</h3>
+<div class="intensity"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div></div>
+<p style="font-size:.88rem;color:var(--text2)">Collings et al. 經典研究證實，運動強度與酸反流呈正相關。>70% VO₂max 時 TLESR 頻率顯著增加。波比跳、衝刺跑等動作會劇烈震盪腹腔臟器，為最易誘發逆流的運動形式。</p>
+</div>
+</div>
+
+<div style="margin-top:32px;padding:24px;background:var(--bg3);border-radius:16px">
+<h4 style="margin-bottom:12px">📋 每週運動計畫建議（40歲男性、輕度GERD）</h4>
+<div class="week-grid">
+<div class="week-day"><div class="day-name">MON</div>快走 40min<br>+ 核心 15min</div>
+<div class="week-day"><div class="day-name">TUE</div>游泳 30min<br>（自由式為主）</div>
+<div class="week-day"><div class="day-name">WED</div>瑜伽 45min<br>（站立體位）</div>
+<div class="week-day"><div class="day-name">THU</div>快走 40min<br>+ 上肢輕訓</div>
+<div class="week-day"><div class="day-name">FRI</div>自行車 35min<br>（平路直立）</div>
+<div class="week-day"><div class="day-name">SAT</div>戶外健行<br>60min</div>
+<div class="week-day"><div class="day-name">SUN</div>休息日<br>伸展 20min</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- MEDS -->
+<section class="section" id="meds" style="background:var(--bg2)">
+<div class="container">
+<div class="section-label">Pharmacotherapy</div>
+<div class="section-title">藥物治療階梯</div>
+<div class="section-desc">輕度 GERD 以生活調整為優先，藥物為輔。以下為 ACG 2022 更新指引建議的階梯式藥物策略。</div>
+
+<div style="margin-bottom:32px">
+<table class="supp-table">
+<thead>
+<tr><th>階層</th><th>藥物類別</th><th>代表藥物</th><th>作用機轉</th><th>使用建議</th><th>注意事項</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="tag tag-green">第一線</span></td>
+<td>制酸劑</td>
+<td>氫氧化鋁鎂<br>(Maalox, Mylanta)</td>
+<td>直接中和胃酸<br>pH 升高至 3.5-5.0</td>
+<td>症狀發生時服用<br>餐後 1-3 小時及睡前</td>
+<td>長期使用可致鋁蓄積<br>腎功能不全者慎用</td>
+</tr>
+<tr>
+<td><span class="tag tag-green">第一線</span></td>
+<td>海藻酸鈉</td>
+<td>Gaviscon Advance</td>
+<td>於胃內形成凝膠筏<br>物理性阻隔酸反流</td>
+<td>餐後及睡前服用<br>每日最多 4 次</td>
+<td>副作用極少<br>可與 PPI 合併使用</td>
+</tr>
+<tr>
+<td><span class="tag tag-blue">第二線</span></td>
+<td>H2 受體拮抗劑</td>
+<td>Famotidine 20mg<br>(Pepcid)</td>
+<td>阻斷組織胺 H2 受體<br>減少基礎胃酸分泌 70%</td>
+<td>一日 1-2 次<br>症狀前 30 分鐘服用</td>
+<td>2-6 週可能產生耐受性<br>Cimetidine 已不建議使用</td>
+</tr>
+<tr>
+<td><span class="tag tag-yellow">第三線</span></td>
+<td>質子泵抑制劑 (PPI)</td>
+<td>Omeprazole 20mg<br>Esomeprazole 20mg<br>Lansoprazole 15mg</td>
+<td>不可逆抑制 H⁺/K⁺-ATPase<br>減少胃酸分泌 >90%</td>
+<td>早餐前 30-60 分鐘空腹服用<br>標準療程 4-8 週</td>
+<td>長期使用需評估：骨質疏鬆、<br>低鎂血症、Clostridium difficile、<br>維生素 B12 缺乏</td>
+</tr>
+<tr>
+<td><span class="tag tag-yellow">輔助</span></td>
+<td>促動力藥</td>
+<td>Mosapride 5mg<br>Itopride 50mg</td>
+<td>5-HT4 激動劑<br>加速胃排空</td>
+<td>餐前 15-30 分鐘<br>每日三次</td>
+<td>效果因人而異<br>可改善早飽與脹氣</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="cta-box">
+<h3>⚠️ 重要提醒</h3>
+<p style="color:var(--text2);margin-top:8px;font-size:.92rem">以上藥物資訊僅供衛教參考。任何藥物的使用、調整或停用均應在醫師指導下進行。輕度 GERD 患者多數可透過生活調整控制症狀，不一定需要長期用藥。若症狀持續超過 4 週未改善，應安排胃鏡檢查。</p>
+</div>
+
+<div class="section-title" style="font-size:1.5rem;margin-top:40px">天然輔助補充品</div>
+<div class="grid-2" style="margin-top:20px">
+<div class="card">
+<h3>🫚 薑（Zingiber officinale）</h3>
+<p>每日 1-3g 薑粉或 2-3 片生薑泡茶。研究顯示薑可加速胃排空 25%（Hu et al., 2011）、減少噁心與上腹不適。活性成分 gingerol 和 shogaol 具有抗發炎與促進腸胃蠕動作用。</p>
+</div>
+<div class="card">
+<h3>🌿 甘草（DGL，去甘草甜素型）</h3>
+<p>DGL 380-760mg 飯前 20 分鐘咀嚼服用。促進食道和胃黏膜黏液分泌，增強黏膜屏障。注意：必須選擇 DGL（Deglycyrrhizinated）形式，一般甘草可能導致高血壓和低鉀血症。</p>
+</div>
+<div class="card">
+<h3>🧬 益生菌</h3>
+<p>Lactobacillus 和 Bifidobacterium 菌株。Sun et al.（2020）系統回顧（14 項 RCT, n=1,527）顯示益生菌可改善 GERD 症狀評分（SMD=-0.31, 95% CI: -0.56 to -0.06）。建議搭配含益生元的飲食。</p>
+</div>
+<div class="card">
+<h3>🍵 洋甘菊茶</h3>
+<p>每日 1-2 杯溫飲。含 Apigenin 等黃酮類化合物，具有抗發炎與輕度鎮靜作用。傳統用於舒緩消化道不適。避免過燙飲用（>60°C 可能刺激食道黏膜）。</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- STRESS -->
+<section class="section" id="stress">
+<div class="container">
+<div class="section-label">Stress Management</div>
+<div class="section-title">壓力管理與心理介入</div>
+<div class="section-desc">壓力不直接產生胃酸，但會放大食道對酸的敏感度（食道高敏感性）。研究顯示高壓力狀態下，即使正常量的酸反流也可能引發強烈症狀（Naliboff et al., 2004）。</div>
+
+<div class="grid-2">
+<div class="stress-technique">
+<h4>🧘 橫膈膜呼吸訓練（Diaphragmatic Breathing）</h4>
+<p style="font-size:.9rem;color:var(--text2)">Eherer et al.（2012）發表於《Am J Gastroenterol》的 RCT 顯示，每日 30 分鐘橫膈膜呼吸訓練持續 4 週後，GERD 患者的酸反流事件減少 50%，PPI 使用量降低 40%。</p>
+<p style="font-size:.85rem;color:var(--text3);margin-top:8px"><strong>操作方法：</strong>仰臥，一手放胸、一手放腹。吸氣 4 秒使腹部隆起（胸部不動），屏息 2 秒，緩慢呼氣 6 秒。每次練習 10-15 分鐘，每日 2 次。此訓練可強化膈肌對 LES 的外部支撐。</p>
+</div>
+<div class="stress-technique">
+<h4>🧠 認知行為治療（CBT）</h4>
+<p style="font-size:.9rem;color:var(--text2)">Riehl et al.（2015）研究顯示 GI-focused CBT 在 PPI 難治型 GERD 中的症狀改善率達 70%。CBT 通過重構對身體感覺的認知、減少災難化思維，降低食道敏感度。</p>
+<p style="font-size:.85rem;color:var(--text3);margin-top:8px">建議：尋求腸胃專科心理師的指導，或使用結構化自助 CBT 工具。每週 1-2 次、持續 6-8 週。</p>
+</div>
+<div class="stress-technique">
+<h4>🎯 漸進式肌肉放鬆（PMR）</h4>
+<p style="font-size:.9rem;color:var(--text2)">系統性地收緊再釋放全身各肌群，從腳趾到頭頂。每個肌群收緊 5 秒、放鬆 15 秒。每次練習 15-20 分鐘。McDonald-Haile et al.（1994）發現 PMR 可減少功能性消化問題症狀達 43%。</p>
+</div>
+<div class="stress-technique">
+<h4>📝 食物-症狀日誌</h4>
+<p style="font-size:.9rem;color:var(--text2)">記錄每日飲食、壓力水平（1-10 分）、症狀出現時間與嚴重度。持續 2-4 週可識別個人特定觸發因子。研究顯示有日誌習慣的患者症狀管理效果提升 35%，因為它提高了對觸發因子的覺察力。</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- SLEEP -->
+<section class="section" id="sleep" style="background:var(--bg2)">
+<div class="container">
+<div class="section-label">Sleep Optimization</div>
+<div class="section-title">睡眠優化方案</div>
+<div class="section-desc">夜間逆流佔所有酸暴露事件的 45%，且因睡眠中的清除機制下降，單次夜間反流事件的黏膜損傷是日間的 10 倍。</div>
+
+<div class="grid-2">
+<div class="card" style="border-top:3px solid var(--accent)">
+<h3>🛏 物理環境設置</h3>
+<ul class="detail-list">
+<li>床頭抬高 15-20cm：使用實木墊塊或專用床架調節器，勝過堆疊枕頭（枕頭只抬頭不抬軀幹，反而增加腹壓）</li>
+<li>楔形枕：30 度傾斜角最佳，材質選擇記憶泡棉以維持支撐</li>
+<li>左側臥位：使用身體枕（body pillow）夾腿可維持整夜左側臥姿</li>
+<li>室溫 18-20°C：過熱會促進胃酸分泌</li>
+<li>避免過軟床墊導致軀幹下沉</li>
+</ul>
+</div>
+<div class="card" style="border-top:3px solid var(--warm)">
+<h3>🌙 睡前流程（Sleep Hygiene for GERD）</h3>
+<ul class="detail-list">
+<li>最後一餐與就寢間隔 ≥3 小時（Fujiwara et al., 2005：間隔<3h 者夜間逆流風險增加 7.45 倍）</li>
+<li>睡前 2 小時不飲用任何液體（除必要服藥用水）</li>
+<li>睡前可嚼非薄荷口香糖 15 分鐘，增加唾液分泌</li>
+<li>避免睡前酒精：酒精雖助入眠但會放鬆 LES 並降低睡眠品質</li>
+<li>若有夜間症狀，可在睡前服用 Famotidine 20mg（醫師處方）</li>
+<li>建立規律就寢時間，褪黑激素的正常分泌有助腸道蠕動</li>
+</ul>
+</div>
+</div>
+
+<div style="margin-top:24px;padding:24px;background:var(--bg3);border-radius:16px">
+<h4 style="color:var(--purple);margin-bottom:12px">💤 褪黑激素與 GERD 的前沿研究</h4>
+<p style="font-size:.9rem;color:var(--text2)">Pereira（2006）在《BMC Gastroenterology》發表的 RCT 顯示，褪黑激素 6mg/日 + L-色胺酸等複合配方在 40 天後，100% 受試者症狀完全緩解，優於 Omeprazole 組（65.7%）。褪黑激素的作用機轉包括：增強 LES 壓力、抑制胃酸分泌、促進食道黏膜再生。但此結果尚需更大規模試驗驗證。建議劑量：3-6mg 睡前服用。</p>
+</div>
+</div>
+</section>
+
+<!-- TRACKER -->
+<section class="section" id="tracker">
+<div class="container">
+<div class="section-label">Symptom Tracker</div>
+<div class="section-title">每日症狀自我追蹤</div>
+<div class="section-desc">使用以下工具評估今天的症狀嚴重程度，並追蹤你的改善趨勢。</div>
+
+<div class="tracker">
+<h3>今日症狀評估</h3>
+<div class="tracker-row"><label>胸口灼熱</label><div class="slider-wrap"><input type="range" min="0" max="10" value="0" class="symptom-slider" data-name="burn"><span class="slider-val">0</span></div></div>
+<div class="tracker-row"><label>酸液反流</label><div class="slider-wrap"><input type="range" min="0" max="10" value="0" class="symptom-slider" data-name="reflux"><span class="slider-val">0</span></div></div>
+<div class="tracker-row"><label>咽喉不適</label><div class="slider-wrap"><input type="range" min="0" max="10" value="0" class="symptom-slider" data-name="throat"><span class="slider-val">0</span></div></div>
+<div class="tracker-row"><label>胸痛感</label><div class="slider-wrap"><input type="range" min="0" max="10" value="0" class="symptom-slider" data-name="chest"><span class="slider-val">0</span></div></div>
+<div class="tracker-row"><label>咳嗽</label><div class="slider-wrap"><input type="range" min="0" max="10" value="0" class="symptom-slider" data-name="cough"><span class="slider-val">0</span></div></div>
+<div class="tracker-row"><label>脹氣/噁心</label><div class="slider-wrap"><input type="range" min="0" max="10" value="0" class="symptom-slider" data-name="bloat"><span class="slider-val">0</span></div></div>
+<div class="tracker-result" id="symptomResult">調整上方滑桿以進行評估。</div>
+</div>
+
+<div style="margin-top:40px">
+<div class="section-title" style="font-size:1.5rem">行動優先順序清單</div>
+<p style="color:var(--text2);margin-bottom:20px;font-size:.92rem">依據影響力排序，從第一項開始逐步執行。每項維持 2 週後再加入下一項。</p>
+<ul class="checklist" id="actionList">
+<li onclick="this.classList.toggle('done')"><div class="check"></div><span><strong>第1週：</strong>最後一餐提前至睡前 3 小時，床頭抬高 15cm</span></li>
+<li onclick="this.classList.toggle('done')"><div class="check"></div><span><strong>第2週：</strong>減少或停止咖啡、酒精、碳酸飲料攝取</span></li>
+<li onclick="this.classList.toggle('done')"><div class="check"></div><span><strong>第3週：</strong>開始每日橫膈膜呼吸訓練 15 分鐘 × 2 次</span></li>
+<li onclick="this.classList.toggle('done')"><div class="check"></div><span><strong>第4週：</strong>執行低脂飲食計畫，每日脂肪攝取 <45g</span></li>
+<li onclick="this.classList.toggle('done')"><div class="check"></div><span><strong>第5週：</strong>建立每週 5 次、每次 30 分鐘中等強度運動習慣</span></li>
+<li onclick="this.classList.toggle('done')"><div class="check"></div><span><strong>第6週：</strong>開始記錄食物-症狀日誌，辨識個人觸發因子</span></li>
+<li onclick="this.classList.toggle('done')"><div class="check"></div><span><strong>第7週：</strong>執行減重計畫（若 BMI>24 或腰圍>90cm）</span></li>
+<li onclick="this.classList.toggle('done')"><div class="check"></div><span><strong>第8週：</strong>綜合評估，若症狀未達預期改善，諮詢消化內科醫師</span></li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- RESEARCH -->
+<section class="section" id="research" style="background:var(--bg2)">
+<div class="container">
+<div class="section-label">Evidence Base</div>
+<div class="section-title">關鍵研究文獻</div>
+<div class="section-desc">以下為本指南引用的核心實證文獻，涵蓋系統性回顧、隨機對照試驗與臨床指南。</div>
+
+<div class="tabs" id="refTabs">
+<button class="tab active" data-tab="guidelines">臨床指南</button>
+<button class="tab" data-tab="diet-ref">飲食研究</button>
+<button class="tab" data-tab="lifestyle-ref">生活調整</button>
+<button class="tab" data-tab="pharm-ref">藥物治療</button>
+<button class="tab" data-tab="psych-ref">心理介入</button>
+</div>
+
+<div class="tab-panel active" id="tab-guidelines">
+<div class="ref">
+<div class="authors">Katz PO, Dunbar KB, Schnoll-Sussman FH, et al.</div>
+<div class="title">ACG Clinical Guideline for the Diagnosis and Management of Gastroesophageal Reflux Disease</div>
+<div class="journal">Am J Gastroenterol. 2022;117(1):27-56. doi:10.14309/ajg.0000000000001538</div>
+</div>
+<div class="ref">
+<div class="authors">Gyawali CP, Kahrilas PJ, Savarino E, et al.</div>
+<div class="title">Modern Diagnosis of GERD: The Lyon Consensus 2.0</div>
+<div class="journal">Gut. 2024;73(2):361-371. doi:10.1136/gutjnl-2023-330616</div>
+</div>
+<div class="ref">
+<div class="authors">Kahrilas PJ, Shaheen NJ, Vaezi MF, et al.</div>
+<div class="title">American Gastroenterological Association Medical Position Statement on the Management of GERD</div>
+<div class="journal">Gastroenterology. 2008;135(4):1383-1391. doi:10.1053/j.gastro.2008.08.045</div>
+</div>
+<div class="ref">
+<div class="authors">National Institute for Health and Care Excellence (NICE)</div>
+<div class="title">Gastro-oesophageal reflux disease and dyspepsia in adults: investigation and management (CG184)</div>
+<div class="journal">NICE Guidelines. Updated 2019. nice.org.uk/guidance/cg184</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-diet-ref">
+<div class="ref">
+<div class="authors">Zalvan CH, Hu S, Greenberg B, Geliebter J.</div>
+<div class="title">A Comparison of Alkaline Water and Mediterranean Diet vs Proton Pump Inhibition for Treatment of Laryngopharyngeal Reflux</div>
+<div class="journal">JAMA Otolaryngol Head Neck Surg. 2017;143(10):1023-1029. doi:10.1001/jamaoto.2017.1454</div>
+</div>
+<div class="ref">
+<div class="authors">Ness-Jensen E, Hveem K, El-Serag H, Lagergren J.</div>
+<div class="title">Lifestyle Intervention in Gastroesophageal Reflux Disease</div>
+<div class="journal">Clin Gastroenterol Hepatol. 2016;14(2):175-182.e3. doi:10.1016/j.cgh.2015.04.176</div>
+</div>
+<div class="ref">
+<div class="authors">Newberry C, Lynch K.</div>
+<div class="title">The Role of Diet in the Development and Management of Gastroesophageal Reflux Disease</div>
+<div class="journal">Curr Opin Gastroenterol. 2019;35(4):337-343. doi:10.1097/MOG.0000000000000550</div>
+</div>
+<div class="ref">
+<div class="authors">Sethi S, Richter JE.</div>
+<div class="title">Diet and Gastroesophageal Reflux Disease: Role in Pathogenesis and Management</div>
+<div class="journal">Curr Opin Gastroenterol. 2017;33(2):107-111. doi:10.1097/MOG.0000000000000337</div>
+</div>
+<div class="ref">
+<div class="authors">Jarosz M, Taraszewska A.</div>
+<div class="title">Risk factors for GERD in relation to diet and lifestyle</div>
+<div class="journal">J Physiol Pharmacol. 2014;65(2):161-169. PMID: 24781686</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-lifestyle-ref">
+<div class="ref">
+<div class="authors">Singh M, Lee J, Gupta N, et al.</div>
+<div class="title">Weight Loss Can Lead to Resolution of Gastroesophageal Reflux Disease Symptoms</div>
+<div class="journal">Clin Gastroenterol Hepatol. 2013;11(11):1399-1412. doi:10.1016/j.cgh.2013.04.023</div>
+</div>
+<div class="ref">
+<div class="authors">Person E, Rife C, Freeman J, Clark A, Castell DO.</div>
+<div class="title">A Novel Sleep Positioning Device Reduces Gastroesophageal Reflux</div>
+<div class="journal">J Clin Gastroenterol. 2015;49(8):655-659. doi:10.1097/MCG.0000000000000359</div>
+</div>
+<div class="ref">
+<div class="authors">Fujiwara Y, Machida A, Watanabe Y, et al.</div>
+<div class="title">Association Between Dinner-to-Bed Time and GERD</div>
+<div class="journal">Am J Gastroenterol. 2005;100(12):2633-2636. doi:10.1111/j.1572-0241.2005.00289.x</div>
+</div>
+<div class="ref">
+<div class="authors">Collings KL, Pierce Pratt F, Rodriguez-Stanley S, et al.</div>
+<div class="title">Esophageal reflux in conditioned runners, cyclists, and weightlifters</div>
+<div class="journal">Med Sci Sports Exerc. 2003;35(5):730-735. doi:10.1249/01.MSS.0000064937.99001.56</div>
+</div>
+<div class="ref">
+<div class="authors">Johnson LF, DeMeester TR.</div>
+<div class="title">Evaluation of elevation of the head of bed and bethanechol</div>
+<div class="journal">Dig Dis Sci. 1981;26(8):673-680. doi:10.1007/BF01314236</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-pharm-ref">
+<div class="ref">
+<div class="authors">Freedberg DE, Kim LS, Yang YX.</div>
+<div class="title">The Risks and Benefits of Long-term Use of Proton Pump Inhibitors</div>
+<div class="journal">Gastroenterology. 2017;152(4):706-715. doi:10.1053/j.gastro.2017.01.031</div>
+</div>
+<div class="ref">
+<div class="authors">Pereira RS.</div>
+<div class="title">Regression of GERD symptoms with a dietary supplement containing melatonin, vitamins and aminoacids</div>
+<div class="journal">BMC Gastroenterol. 2006;6:7. doi:10.1186/1471-230X-6-7</div>
+</div>
+<div class="ref">
+<div class="authors">Sun QH, Wang HY, Sun SD, et al.</div>
+<div class="title">Beneficial effect of probiotics supplements in GERD: A systematic review and meta-analysis</div>
+<div class="journal">Medicine. 2020;99(50):e23618. doi:10.1097/MD.0000000000023618</div>
+</div>
+<div class="ref">
+<div class="authors">Hu ML, Rayner CK, Wu KL, et al.</div>
+<div class="title">Effect of ginger on gastric motility and symptoms of functional dyspepsia</div>
+<div class="journal">World J Gastroenterol. 2011;17(1):105-110. doi:10.3748/wjg.v17.i1.105</div>
+</div>
+</div>
+
+<div class="tab-panel" id="tab-psych-ref">
+<div class="ref">
+<div class="authors">Eherer AJ, Netolitzky F, Högenauer C, et al.</div>
+<div class="title">Positive effect of abdominal breathing exercise on gastroesophageal reflux disease</div>
+<div class="journal">Am J Gastroenterol. 2012;107(3):372-378. doi:10.1038/ajg.2011.420</div>
+</div>
+<div class="ref">
+<div class="authors">Riehl ME, Kinsinger S, Kahrilas PJ, et al.</div>
+<div class="title">Role of a health psychologist in the management of functional esophageal complaints</div>
+<div class="journal">Dis Esophagus. 2015;28(5):428-436. doi:10.1111/dote.12219</div>
+</div>
+<div class="ref">
+<div class="authors">Naliboff BD, Mayer M, Fass R, et al.</div>
+<div class="title">The effect of life stress on symptoms of heartburn</div>
+<div class="journal">Psychosom Med. 2004;66(3):426-434. doi:10.1097/01.psy.0000124756.37520.84</div>
+</div>
+<div class="ref">
+<div class="authors">McDonald-Haile J, Bradley LA, Bailey MA, et al.</div>
+<div class="title">Relaxation training reduces symptom reports and acid exposure in GERD patients</div>
+<div class="journal">Gastroenterology. 1994;107(1):61-69. doi:10.1016/0016-5085(94)90061-2</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- WHEN TO SEE DOCTOR -->
+<section class="section" id="doctor">
+<div class="container">
+<div class="section-label">Red Flags</div>
+<div class="section-title">何時需要就醫？</div>
+<div class="grid-2">
+<div class="card" style="border-left:3px solid var(--red)">
+<h3>🚨 立即就醫（警示症狀）</h3>
+<ul class="detail-list">
+<li>吞嚥困難進行性加劇（可能為食道狹窄或腫瘤）</li>
+<li>吞嚥疼痛（Odynophagia）</li>
+<li>非預期體重減輕 >5% / 3個月</li>
+<li>嘔血或黑色柏油便（上消化道出血徵象）</li>
+<li>持續性嘔吐</li>
+<li>胸痛（需先排除急性冠心症）</li>
+<li>貧血（不明原因血紅素下降）</li>
+</ul>
+</div>
+<div class="card" style="border-left:3px solid var(--warm)">
+<h3>📋 建議安排檢查</h3>
+<ul class="detail-list">
+<li>生活調整 4-8 週後症狀無改善</li>
+<li>需長期（>8 週）依賴 PPI 控制症狀</li>
+<li>症狀頻率增加至每日發生</li>
+<li>年齡 >50 歲且新發症狀（Barrett 篩檢指征）</li>
+<li>GERD 家族史合併長期症狀</li>
+<li>非典型症狀為主（慢性咳嗽、聲啞）需鑑別診斷</li>
+<li>建議檢查項目：上消化道內視鏡（EGD）、24 小時 pH 監測、食道測壓（HRM）</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container">
+<p style="margin-bottom:8px">⚕ 本指南僅供健康教育參考，不構成醫療建議。如有症狀請諮詢專業醫療人員。</p>
+<p>所有建議基於截至 2024 年的實證醫學文獻 ｜ 最後更新：2026.04</p>
+</div>
+</footer>
+
+<script>
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>80)});
+
+// Tabs
+document.querySelectorAll('.tabs').forEach(tabGroup=>{
+tabGroup.querySelectorAll('.tab').forEach(tab=>{
+tab.addEventListener('click',()=>{
+const target=tab.dataset.tab;
+const parent=tab.closest('.section')||tab.closest('.container')||document.body;
+tabGroup.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+tab.classList.add('active');
+parent.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+const panel=document.getElementById('tab-'+target);
+if(panel)panel.classList.add('active');
+});
+});
+});
+
+// Accordions
+document.querySelectorAll('.accordion-header').forEach(h=>{
+h.addEventListener('click',()=>{h.parentElement.classList.toggle('open')});
+});
+
+// Risk assessment
+const riskFactors=[
+{label:'BMI > 24（過重）',weight:3},
+{label:'腰圍 > 90cm',weight:3},
+{label:'每日飲用咖啡 ≥2 杯',weight:2},
+{label:'每週飲酒 ≥3 次',weight:2},
+{label:'目前有吸菸習慣',weight:3},
+{label:'經常外食（每週 ≥5 次）',weight:2},
+{label:'晚餐與就寢間隔 < 3 小時',weight:3},
+{label:'工作壓力偏高（自評 ≥7/10）',weight:2},
+{label:'長時間久坐辦公（每日 >6 小時）',weight:1},
+{label:'經常穿著緊身衣褲或繫緊腰帶',weight:1},
+{label:'有裂孔疝（Hiatal Hernia）病史',weight:3},
+{label:'正在服用 NSAIDs 或鈣離子阻斷劑',weight:2},
+{label:'家族有 GERD 或 Barrett 食道病史',weight:2},
+{label:'睡眠品質差（每日 <6 小時）',weight:1},
+];
+const rc=document.getElementById('riskChecks');
+const maxScore=riskFactors.reduce((a,b)=>a+b.weight,0);
+riskFactors.forEach((f,i)=>{
+const d=document.createElement('label');
+d.style.cssText='display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;cursor:pointer;font-size:.88rem;color:var(--text2);break-inside:avoid';
+d.innerHTML=`<input type="checkbox" data-w="${f.weight}" style="margin-top:4px;accent-color:var(--accent)"> ${f.label}`;
+rc.appendChild(d);
+});
+rc.addEventListener('change',()=>{
+let score=0;
+rc.querySelectorAll('input:checked').forEach(c=>score+=+c.dataset.w);
+const pct=Math.min(score/maxScore*100,100);
+document.getElementById('riskFill').style.width=pct+'%';
+let level,color,advice;
+if(pct<25){level='低風險';color='var(--green)';advice='你的生活習慣整體良好！持續維持目前的健康習慣，並定期自我評估。'}
+else if(pct<50){level='中低風險';color='var(--accent)';advice='有一些可改善的空間。建議從飲食時間和體重管理著手，逐步調整。'}
+else if(pct<75){level='中高風險';color='var(--warm)';advice='多項風險因子需要關注。建議系統性執行本指南的行動清單，並考慮諮詢消化內科。'}
+else{level='高風險';color='var(--red)';advice='風險因子偏多，建議儘快諮詢消化內科醫師進行評估，並積極改善生活習慣。'}
+document.getElementById('riskResult').innerHTML=`<span style="font-size:1.1rem;font-weight:700;color:${color}">${level}</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text3);margin-left:12px">Score: ${score}/${maxScore}</span><p style="margin-top:8px;font-size:.9rem;color:var(--text2)">${advice}</p>`;
+});
+
+// Symptom tracker
+document.querySelectorAll('.symptom-slider').forEach(s=>{
+s.addEventListener('input',()=>{
+s.nextElementSibling.textContent=s.value;
+calcSymptoms();
+});
+});
+function calcSymptoms(){
+const vals=[];
+document.querySelectorAll('.symptom-slider').forEach(s=>vals.push(+s.value));
+const total=vals.reduce((a,b)=>a+b,0);
+const avg=(total/vals.length).toFixed(1);
+let level,color,advice;
+if(avg<=2){level='控制良好';color='var(--green)';advice='目前症狀輕微或無症狀，繼續維持現有生活方式。'}
+else if(avg<=5){level='輕度不適';color='var(--warm)';advice='有明顯症狀但可管理。檢查是否有觸發因子（飲食、壓力、睡姿），加強執行行動清單。'}
+else if(avg<=7){level='中度不適';color='var(--warm2)';advice='症狀已影響生活品質。建議開始使用制酸劑或 H2 受體拮抗劑，並安排消化內科就診。'}
+else{level='嚴重不適';color='var(--red)';advice='症狀嚴重，強烈建議儘快就醫。可能需要 PPI 治療或進一步檢查。'}
+document.getElementById('symptomResult').innerHTML=`<span style="font-size:1.1rem;font-weight:700;color:${color}">${level}</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text3);margin-left:12px">平均: ${avg}/10</span><p style="margin-top:8px;font-size:.9rem;color:var(--text2)">${advice}</p>`;
+}
+
+// Fade-in on scroll
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+document.querySelectorAll('.card,.ref,.exercise-card,.stress-technique,.accordion,.tracker,.risk-meter').forEach(el=>{el.classList.add('fade-in');obs.observe(el)});
+</script>
+</body>
+</html>
