@@ -124,6 +124,8 @@ footer .version:hover{opacity:1;border-bottom-color:var(--accent)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:768px){header{padding:60px 24px 32px}.grid{grid-template-columns:1fr;padding:16px 20px 60px;gap:16px}.filter-bar{padding:16px 20px 8px}.search-wrap{padding:0 20px}.search-icon{left:36px}}
 .card.hidden{display:none}
+.card.card-wide{grid-column:span 2}
+@media(max-width:768px){.card.card-wide{grid-column:span 1}}
 .admin-link{position:fixed;top:20px;right:20px;z-index:100;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--text-dim);text-decoration:none;transition:all .3s;opacity:.4}
 .admin-link:hover{opacity:1;border-color:var(--accent);color:var(--accent);transform:rotate(90deg)}
 </style>
@@ -296,7 +298,7 @@ function renderCards(cards) {
   }
   cards.forEach((card, i) => {
     const el = document.createElement('a');
-    el.className = 'card';
+    el.className = 'card' + (card.colSpan === 2 ? ' card-wide' : '');
     // 優先使用外部連結，其次用 site.html 檢視器
     if (card.externalUrl) {
       el.href = card.externalUrl;

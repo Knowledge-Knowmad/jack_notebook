@@ -121,6 +121,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
   .modal{padding:20px}
 }
 
+/* Width Selector */
+.width-option{cursor:pointer}
+.width-option input{display:none}
+.width-label{display:flex;flex-direction:column;align-items:center;padding:12px 20px;border-radius:8px;border:1px solid var(--border);font-size:12px;font-weight:500;transition:all .2s;color:var(--text-dim)}
+.width-option input:checked + .width-label{border-color:var(--accent);background:rgba(232,197,71,.06);color:var(--accent)}
+.width-label:hover{border-color:var(--text-dim)}
+
 /* AI Model Selector */
 .ai-model-option{cursor:pointer}
 .ai-model-option input{display:none}
@@ -206,6 +213,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
       <div class="checkbox-group">
         <input type="checkbox" id="f_visible" checked>
         <label for="f_visible" style="margin:0;cursor:pointer">在前台顯示此卡片</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>卡片寬度</label>
+      <div style="display:flex;gap:8px">
+        <label class="width-option">
+          <input type="radio" name="colSpan" value="1" checked>
+          <span class="width-label">
+            <span style="display:flex;gap:4px;margin-bottom:4px"><span style="width:24px;height:16px;border-radius:3px;border:1.5px solid currentColor"></span></span>
+            標準（1 欄）
+          </span>
+        </label>
+        <label class="width-option">
+          <input type="radio" name="colSpan" value="2">
+          <span class="width-label">
+            <span style="display:flex;gap:4px;margin-bottom:4px"><span style="width:52px;height:16px;border-radius:3px;border:1.5px solid currentColor"></span></span>
+            寬版（2 欄）
+          </span>
+        </label>
       </div>
     </div>
 
@@ -393,6 +420,7 @@ function renderCards() {
         <div class="meta">
           <span class="tag-badge">${esc(c.tag || '')}</span>
           ${!c.isVisible ? '<span class="hidden-badge">已隱藏</span>' : ''}
+          ${c.colSpan === 2 ? '<span class="tag-badge" style="border-color:rgba(232,197,71,.3)">寬版</span>' : ''}
           ${c.externalUrl ? '<span class="tag-badge" style="border-color:rgba(71,232,197,.3);color:var(--accent2)">外部連結</span>' : ''}
           <span>${esc(c.desc || '')}</span>
         </div>
@@ -463,6 +491,7 @@ function openCreateModal() {
   document.getElementById('f_tag').value = '互動網站';
   document.getElementById('f_desc').value = '';
   document.getElementById('f_visible').checked = true;
+  document.querySelector('input[name="colSpan"][value="1"]').checked = true;
   document.getElementById('f_html').value = '';
   document.getElementById('f_externalUrl').value = '';
   document.getElementById('htmlFileName').textContent = '';
@@ -492,6 +521,7 @@ async function openEditModal(id) {
   document.getElementById('f_tag').value = card.tag || '';
   document.getElementById('f_desc').value = card.desc || '';
   document.getElementById('f_visible').checked = card.isVisible !== false;
+  document.querySelector(`input[name="colSpan"][value="${card.colSpan === 2 ? 2 : 1}"]`).checked = true;
 
   // Image
   currentImageUrl = card.imageUrl || null;
@@ -560,11 +590,13 @@ async function saveCard() {
 
   try {
     const externalUrl = document.getElementById('f_externalUrl').value.trim();
+    const colSpan = parseInt(document.querySelector('input[name="colSpan"]:checked').value);
     const data = {
       title,
       tag: document.getElementById('f_tag').value.trim(),
       desc: document.getElementById('f_desc').value.trim(),
       isVisible: document.getElementById('f_visible').checked,
+      colSpan,
       externalUrl,
       updatedAt: serverTimestamp(),
     };
