@@ -146,9 +146,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
     <h1>知識剪貼簿</h1>
     <p>管理後台登入</p>
     <div class="login-error" id="loginError"></div>
-    <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
-    <input type="password" id="loginPassword" placeholder="密碼" autocomplete="current-password">
-    <button class="btn btn-primary" style="width:100%" id="loginBtn">登入</button>
+    <button class="btn btn-primary" style="width:100%" id="loginBtn">使用 Google 登入</button>
   </div>
 </div>
 
@@ -325,7 +323,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { getFirestore, collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-storage.js";
 
@@ -354,8 +352,18 @@ let currentImageUrl = null;    // existing image URL for editing
 let currentImagePath = null;   // existing Storage path for deletion
 
 // ===================== Auth =====================
+const ALLOWED_EMAILS = ['knowledge.nomads.tw2@gmail.com', 'foxfirejack@gmail.com'];
+const googleProvider = new GoogleAuthProvider();
+
 onAuthStateChanged(auth, user => {
   if (user) {
+    if (!ALLOWED_EMAILS.includes(user.email)) {
+      signOut(auth);
+      const errEl = document.getElementById('loginError');
+      errEl.textContent = '此帳號未授權';
+      errEl.style.display = 'block';
+      return;
+    }
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     document.getElementById('userEmail').textContent = user.email;
@@ -367,17 +375,14 @@ onAuthStateChanged(auth, user => {
 });
 
 document.getElementById('loginBtn').addEventListener('click', doLogin);
-document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
 async function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pw = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
   try {
-    await signInWithEmailAndPassword(auth, email, pw);
+    await signInWithPopup(auth, googleProvider);
     errEl.style.display = 'none';
   } catch (e) {
-    errEl.textContent = e.code === 'auth/invalid-credential' ? '帳號或密碼錯誤' : e.message;
+    errEl.textContent = e.code === 'auth/popup-closed-by-user' ? '已取消登入' : e.message;
     errEl.style.display = 'block';
   }
 }
