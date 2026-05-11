@@ -433,6 +433,7 @@ function renderCards() {
       <div class="card-actions">
         <button class="btn btn-sm move-btn" data-id="${c.id}" data-dir="up" title="上移">▲</button>
         <button class="btn btn-sm move-btn" data-id="${c.id}" data-dir="down" title="下移">▼</button>
+        <button class="btn btn-sm view-btn" data-id="${c.id}" title="前往閱覽">前往閱覽 ↗</button>
         <button class="btn btn-sm edit-btn" data-id="${c.id}">編輯</button>
         <button class="btn btn-sm btn-danger del-btn" data-id="${c.id}">刪除</button>
       </div>
@@ -443,6 +444,7 @@ function renderCards() {
   list.querySelectorAll('.edit-btn').forEach(b => b.addEventListener('click', () => openEditModal(b.dataset.id)));
   list.querySelectorAll('.del-btn').forEach(b => b.addEventListener('click', () => deleteCard(b.dataset.id)));
   list.querySelectorAll('.move-btn').forEach(b => b.addEventListener('click', () => moveCard(b.dataset.id, b.dataset.dir)));
+  list.querySelectorAll('.view-btn').forEach(b => b.addEventListener('click', () => viewCard(b.dataset.id)));
 
   // Drag reorder
   list.querySelectorAll('.card-item').forEach(el => {
@@ -467,6 +469,17 @@ function renderCards() {
       } catch (err) { toast('排序儲存失敗', true); }
     });
   });
+}
+
+// ===================== View Card on Frontend =====================
+function viewCard(id) {
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+  const url = card.externalUrl
+    ? card.externalUrl
+    : (card.htmlUrl ? `site.html?id=${card.id}` : '');
+  if (!url) { toast('此卡片尚無內容可閱覽', true); return; }
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 // ===================== Move Card Up/Down =====================
